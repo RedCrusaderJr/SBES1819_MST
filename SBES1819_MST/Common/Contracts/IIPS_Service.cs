@@ -11,6 +11,6 @@ namespace Common.Contracts
     public interface IIPS_Service
     {
         [OperationContract]
-        void MalwareDetection();
+        void MalwareDetection(string userID, string processID);
     }
 }
