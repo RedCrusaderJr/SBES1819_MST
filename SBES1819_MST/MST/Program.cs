@@ -10,6 +10,7 @@ namespace MST
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("");
         }
     }
 }
