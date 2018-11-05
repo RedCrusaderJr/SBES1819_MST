@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="Contracts\IIPS_Service.cs" />
     <Compile Include="Contracts\IXMLConfiguration_Service.cs" />
     <Compile Include="Contracts\IMST_Service.cs" />
