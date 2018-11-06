@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace IPS
 {
-    public class MST_Client : ChannelFactory<IMST_Service>, IMST_Service
+    public class MST_Client : ChannelFactory<IMST_Service>, IMST_Service, IDisposable
     {
         private IMST_Service _proxy;
 
@@ -41,6 +41,16 @@ namespace IPS
                 Console.WriteLine($"Error on 'ProcessShutdown()' with message: {e.Message}");
                 Console.WriteLine($"[STACK_TRACE] {e.StackTrace}");
             }
+        }
+
+        public void Dispose()
+        {
+            if(_proxy != null)
+            {
+                _proxy = null;
+            }
+
+            this.Close();
         }
     }
 }

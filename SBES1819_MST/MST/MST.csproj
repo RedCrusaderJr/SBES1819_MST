@@ -36,6 +36,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -47,9 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IPS_Client.cs" />
+    <Compile Include="MST_Provider.cs" />
+    <Compile Include="MST_Server.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadFunction.cs" />
+    <Compile Include="XML_Provider.cs" />
+    <Compile Include="XML_Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -58,6 +63,10 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8DDF4BF3-2662-40B2-8F76-36811EA988E4}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Manager\Manager.csproj">
+      <Project>{dacd3dad-1eba-49b7-b405-da736e9e0f99}</Project>
+      <Name>Manager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,7 +13,7 @@ namespace IPS
             IPS_Server server = new IPS_Server();
 
             server.Open();
-            Console.WriteLine("Press any key to quit...");
+            Console.WriteLine("Press any key to close host...");
             Console.ReadKey();
 
             server.Close();

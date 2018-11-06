@@ -25,7 +25,7 @@ namespace IPS
                 if(IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.CRITICAL)
                 {
                     //TODO proxy ka MST
-
+                    
 
                     //TODO event log
 

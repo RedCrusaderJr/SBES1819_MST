@@ -75,7 +75,7 @@ namespace MST
                     
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(10000);
             }
         }
     }
