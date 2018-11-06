@@ -19,7 +19,7 @@ namespace MST
         public IPS_Client(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
         {
-            // TODO: 
+            // TODO: komunikacija preko sertifikata
 
             //string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
@@ -32,11 +32,11 @@ namespace MST
             _proxy = this.CreateChannel();
         }
 
-        public void MalwareDetection(string userID, string processName, DateTime timeOfDetection)
+        public void MalwareDetection(string userID, string processID, DateTime timeOfDetection)
         {
             try
             {
-                _proxy.MalwareDetection(userID, processName, timeOfDetection);
+                _proxy.MalwareDetection(userID, processID, timeOfDetection);
             }
             catch(Exception e)
             {

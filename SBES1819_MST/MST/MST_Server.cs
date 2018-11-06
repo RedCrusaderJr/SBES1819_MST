@@ -20,9 +20,7 @@ namespace MST
         public MST_Server()
         {
             // TODO: komunikacija preko sertifikata
-
-
-
+            
 
             // string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 

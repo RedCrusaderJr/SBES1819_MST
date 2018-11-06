@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MST
 {
-    public class XML_Node
+    public class XML_Node : IXML_Node
     {
         string userId;
         string userGroup;

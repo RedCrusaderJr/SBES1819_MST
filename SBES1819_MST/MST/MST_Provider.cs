@@ -11,7 +11,7 @@ namespace MST
     {
         public void ProcessShutdown(string userID, string processID)
         {
-            throw new NotImplementedException();
+            // TODO: logika za gasenje procesa pomocu processID-a
         }
     }
 }

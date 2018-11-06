@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
+using System.ServiceModel;
 
 namespace MST
 {
@@ -66,12 +67,34 @@ namespace MST
 
                 foreach (Process theprocess in processlist)
                 {
-                    if(theprocess.ProcessName == "notepad")
-
-                    Console.WriteLine("Process: {0}, process user: {1}, user group: {2}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
-                    
+                    Console.WriteLine("Process: {0}, process user: {1}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
 
                     // TODO: sastavljanje paketa IPS-u za nedozvoljenu kombinaciju 'processName - user'
+
+                    List<XML_Node> black_list = new List<XML_Node>();       // xml se nalazi u debag folderu
+                    black_list = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
+
+                    foreach (XML_Node n in black_list)
+                    {
+                        Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
+
+                        if(theprocess.ProcessName == n.ProcessName)
+                        {
+                            if((GetProcessOwner(theprocess.Id) == n.UserId) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
+                            {
+                                // detektovan je malware
+
+                                NetTcpBinding binding = new NetTcpBinding();
+                                EndpointAddress address = new EndpointAddress("net.tcp://localhost:9001/ISP_Service");  // TODO: nece biti local host
+
+                                using (IPS_Client client = new IPS_Client(binding, address))
+                                {
+                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
+                                }
+                            }
+                        }
+                    }
+
                     
                 }
 
