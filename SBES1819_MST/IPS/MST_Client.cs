@@ -19,6 +19,7 @@ namespace IPS
         public MST_Client(NetTcpBinding binding, EndpointAddress address) 
             : base(binding, address)
         {
+            // TODO: ime klijentskog sertifikata.... .pfx file npr. "MST_CLIENT.pfx" 
             string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;

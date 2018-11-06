@@ -7,10 +7,16 @@ using System.Threading.Tasks;
 
 namespace Common.Contracts
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract=typeof(IIPS_ServiceCallback))]
     public interface IIPS_Service
     {
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void MalwareDetection(string userID, string processName, DateTime timeOfDetection);
+    }
+
+    public interface IIPS_ServiceCallback
+    {
+        [OperationContract(IsOneWay = true)]
+        void ProcessShutdownCallback(string userID, string processID);
     }
 }

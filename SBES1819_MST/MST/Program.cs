@@ -18,15 +18,6 @@ namespace MST
 
             MST_Server server_MST = new MST_Server();
             server_MST.Open();
-            
-
-            //TODO open host XML...
-
-<<<<<<< HEAD
-            // ...
-
-=======
-            //**************************************************************
 
             List<XML_Node> lista = new List<XML_Node>();
 
@@ -43,9 +34,6 @@ namespace MST
             {
                 Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
             }
-
-            //**************************************************************
->>>>>>> 6572823dc948cae0eee22253dbd210fe9cb56a39
 
             ThreadFunction tf = new ThreadFunction();
 
