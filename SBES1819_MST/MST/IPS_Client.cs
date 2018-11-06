@@ -10,6 +10,13 @@ namespace MST
 {
     public class IPS_Client : ChannelFactory<IIPS_Service>, IIPS_Service
     {
+        private IIPS_Service _proxy;
+
+        public IPS_Client()
+        {
+
+        }
+
         public void MalwareDetection(string userID, string processName, DateTime timeOfDetection)
         {
             throw new NotImplementedException();

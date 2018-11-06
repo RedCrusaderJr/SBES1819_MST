@@ -14,7 +14,7 @@ namespace IPS
 {
     public class MST_Client : ChannelFactory<IMST_Service>, IMST_Service
     {
-        private IMST_Service proxy;
+        private IMST_Service _proxy;
 
         public MST_Client(NetTcpBinding binding, EndpointAddress address) 
             : base(binding, address)
@@ -27,14 +27,14 @@ namespace IPS
 
             this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
 
-            proxy = this.CreateChannel();
+            _proxy = this.CreateChannel();
         }
 
         public void ProcessShutdown(string userID, string processID)
         {
             try
             {
-                proxy.ProcessShutdown(userID, processID);
+                _proxy.ProcessShutdown(userID, processID);
             }
             catch (Exception e)
             {

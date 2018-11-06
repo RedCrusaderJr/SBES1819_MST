@@ -14,6 +14,10 @@ namespace MST
         
         static void Main(string[] args)
         {
+            //TODO open host MST
+
+            //TODO open host XML...
+
             ThreadFunction tf = new ThreadFunction();
 
             Thread t = new Thread(tf.DetectProcesses);
