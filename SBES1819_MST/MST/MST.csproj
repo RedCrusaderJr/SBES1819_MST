@@ -50,6 +50,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadFunction.cs" />
+    <Compile Include="XML_Node.cs" />
+    <Compile Include="XML_Worker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
