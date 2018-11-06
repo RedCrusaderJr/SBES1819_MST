@@ -89,6 +89,8 @@ namespace MST
 
                                 using (IPS_Client client = new IPS_Client(binding, address))
                                 {
+                                    // konekcija ka IPS-u
+
                                     client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
                                 }
                             }

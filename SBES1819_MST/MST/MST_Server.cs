@@ -19,15 +19,8 @@ namespace MST
 
         public MST_Server()
         {
-<<<<<<< HEAD
-            // TODO: komunikacija preko sertifikata
-            
-
-            // string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-=======
             //TODO: ime serverovog sertifikata... .pfx file npr. "MST_SERVER.pfx"
             string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
->>>>>>> 9abad58b6bc01611421cb657a375c732fa3f6c1d
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;

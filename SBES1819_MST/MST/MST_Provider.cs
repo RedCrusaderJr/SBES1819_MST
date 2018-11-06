@@ -1,6 +1,7 @@
 ﻿using Common.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -14,18 +15,28 @@ namespace MST
 
         public MST_Provider()
         {
+            // TODO: da li ce 'OperationContext.Current' vaziti na razlicitim racunarima ?
+
             _callback = OperationContext.Current.GetCallbackChannel<IIPS_ServiceCallback>();
         }
 
         public void ProcessShutdown(string userID, string processID)
         {
-<<<<<<< HEAD
-            // TODO: logika za gasenje procesa pomocu processID-a
-=======
-            //TODO: logika za gasenje procesa pomocu processID-a
+            Process[] processlist = Process.GetProcesses(Environment.MachineName);
+
+            foreach(Process p in processlist)
+            {
+                if(p.Id == Int32.Parse(processID))
+                {
+                    p.Kill();
+                    break;
+                }
+            }
+
+
+            // nakon izvrsene logike, salje se callback IPS-u
 
             _callback.ProcessShutdownCallback(userID, processID);
->>>>>>> 9abad58b6bc01611421cb657a375c732fa3f6c1d
         }
     }
 }

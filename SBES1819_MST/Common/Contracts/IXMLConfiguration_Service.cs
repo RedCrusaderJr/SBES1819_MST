@@ -12,6 +12,31 @@ namespace Common.Contracts
     public interface IXMLConfiguration_Service
     {
         [OperationContract]
-        void XML_Write(List<IXML_Node> nodes);
+        void BanUser(string userID, string processName);
+
+        [OperationContract]
+        void LiftUserBan(string userID, string processName);
+
+
+
+        [OperationContract]
+        void BanGroup(string groupID, string processName);
+
+        [OperationContract]
+        void LiftGroupBan(string groupID, string processName);
+
+
+        [OperationContract]
+        void BanUserInGroup(string userID, string groupID, string processName);
+
+        [OperationContract]
+        void LiftUserInGroupBan(string userID, string groupID, string processName);
+
+
+        [OperationContract]
+        void ForbidProcess(string processName);
+
+        [OperationContract]
+        void AllowProcess(string processName);
     }
 }

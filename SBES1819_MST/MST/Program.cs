@@ -14,19 +14,14 @@ namespace MST
         
         public static void Main(string[] args)
         {
-            //TODO open host MST
-
             MST_Server server_MST = new MST_Server();
             server_MST.Open();
-<<<<<<< HEAD
 
 
             //TODO open host XML...
 
             //XML_Server server_XML = new XML_Server();
             //server_XML.Open();
-=======
->>>>>>> 9abad58b6bc01611421cb657a375c732fa3f6c1d
 
             List<XML_Node> lista = new List<XML_Node>();
 
@@ -36,9 +31,6 @@ namespace MST
 
             XML_Worker.Instance().XML_Write(lista);             // Poziv upisa
                 
-<<<<<<< HEAD
-            
-=======
             List<XML_Node> lista2 = new List<XML_Node>();       // xml se nalazi u debag folderu
             lista2 = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
 
@@ -46,7 +38,6 @@ namespace MST
             {
                 Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
             }
->>>>>>> 9abad58b6bc01611421cb657a375c732fa3f6c1d
 
             ThreadFunction tf = new ThreadFunction();
 

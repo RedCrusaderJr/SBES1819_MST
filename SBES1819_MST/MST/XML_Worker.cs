@@ -56,6 +56,9 @@ namespace MST
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
 
+            // TODO: proveri validnost XML dokumenta [HASH vrednost]
+            // koja je pri tome vrsta greske
+
             foreach (XML_Node node in nodes)
             {
                 XmlNode xml_node = xmlDocument.CreateElement("node");
@@ -85,6 +88,9 @@ namespace MST
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
+
+            // TODO: proveri validnost XML dokumenta [HASH vrednost]
+            // koja je pri tome vrsta greske
 
             foreach (XmlNode xmlNode in xmlDocument.DocumentElement.ChildNodes)
             {

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MST
 {
-    class XML_Server
+    public class XML_Server
     {
+        // TODO
     }
 }
