@@ -19,24 +19,28 @@ namespace MST
 
         public MST_Server()
         {
+<<<<<<< HEAD
             // TODO: komunikacija preko sertifikata
             
 
             // string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+=======
+            //TODO: ime serverovog sertifikata... .pfx file npr. "MST_SERVER.pfx"
+            string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+>>>>>>> 9abad58b6bc01611421cb657a375c732fa3f6c1d
 
             NetTcpBinding binding = new NetTcpBinding();
-            // binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            string address = "net.tcp://localhost:9999/MST_Service";
+            string address = "net.tcp://localhost:9002/MST_Service";
             _host = new ServiceHost(typeof(MST_Provider));
             _host.AddServiceEndpoint(typeof(IMST_Service), binding, address);
 
-            //_host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-            //_host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
+            _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+            _host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
+            _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            // _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
-
-            // _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
         }
 
         public void Open()

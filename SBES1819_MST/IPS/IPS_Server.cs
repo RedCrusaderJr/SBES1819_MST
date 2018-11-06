@@ -20,18 +20,18 @@ namespace IPS
 
         public IPS_Server()
         {
+            //TODO: ime serverovog sertifikata... .pfx file npr. "IPS_SERVER.pfx"
             string srvCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            string address = "net.tcp://localhost:9999/ISP_Service";
+            string address = "net.tcp://localhost:9001/ISP_Service";
             _host = new ServiceHost(typeof(IPS_Provider));
             _host.AddServiceEndpoint(typeof(IIPS_Service), binding, address);
 
             _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
             _host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
-
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
