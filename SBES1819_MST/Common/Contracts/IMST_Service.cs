@@ -11,6 +11,6 @@ namespace Common.Contracts
     public interface IMST_Service
     {
         [OperationContract]
-        void ProcessShutdown();
+        void ProcessShutdown(string userID, string processID);
     }
 }

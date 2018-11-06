@@ -10,6 +10,15 @@ namespace IPS
     {
         static void Main(string[] args)
         {
+            IPS_Server server = new IPS_Server();
+
+            server.Open();
+            Console.WriteLine("Press any key to quit...");
+            Console.ReadKey();
+
+            server.Close();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }

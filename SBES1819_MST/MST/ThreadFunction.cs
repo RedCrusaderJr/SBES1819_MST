@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Management;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.DirectoryServices.AccountManagement;
+
+namespace MST
+{
+    public class ThreadFunction
+    {
+        // ova metoda za string user (iz procesa) proverava da li pripada grupi (string iz xml-a)
+
+        bool IsUserInGroup(string user, string group)
+        {
+            // set up domain context
+            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "DOMAINNAME");
+
+            // find a user
+            UserPrincipal user_principal  = UserPrincipal.FindByIdentity(ctx, user);
+
+            // find the group in question
+            GroupPrincipal group_principal = GroupPrincipal.FindByIdentity(ctx, group);
+
+            if (user_principal != null)
+            {
+                // check if user is member of that group
+                if (user_principal.IsMemberOf(group_principal))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        static string GetProcessOwner(int processId)
+        {
+            string query = "Select * From Win32_Process Where ProcessID = " + processId;
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection processList = searcher.Get();
+
+            foreach (ManagementObject obj in processList)
+            {
+                string[] argList = new string[] { string.Empty, string.Empty };
+                int returnVal = Convert.ToInt32(obj.InvokeMethod("GetOwner", argList));
+                if (returnVal == 0)
+                {
+                    // return DOMAIN\user
+                    return argList[1] + "\\" + argList[0];
+                }
+            }
+
+            return "NO OWNER";
+        }
+
+
+        public void DetectProcesses()
+        {
+            while (true)
+            {
+                Process[] processlist = Process.GetProcesses(Environment.MachineName);
+
+                foreach (Process theprocess in processlist)
+                {
+                    if(theprocess.ProcessName == "notepad")
+
+                    Console.WriteLine("Process: {0}, process user: {1}, user group: {2}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
+                    
+
+                    // TODO: sastavljanje paketa IPS-u za nedozvoljenu kombinaciju 'processName - user'
+                    
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+    }
+}

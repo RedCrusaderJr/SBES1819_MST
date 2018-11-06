@@ -10,7 +10,7 @@ namespace IPS
 {
     public class IPS_Provider : IIPS_Service
     {
-        public void MalwareDetection(string userID, string processID)
+        public void MalwareDetection(string userID, string processID, DateTime timeOfDetection)
         {
             string eventKey = $"{userID}|{processID}";
 
