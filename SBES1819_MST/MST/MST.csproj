@@ -55,6 +55,8 @@
     <Compile Include="ThreadFunction.cs" />
     <Compile Include="XML_Provider.cs" />
     <Compile Include="XML_Server.cs" />
+    <Compile Include="XML_Node.cs" />
+    <Compile Include="XML_Worker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
