@@ -76,7 +76,7 @@ namespace MST
 
                     foreach (XML_Node n in black_list)
                     {
-                        Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
+                        // Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
 
                         if(theprocess.ProcessName == n.ProcessName)
                         {
@@ -100,7 +100,7 @@ namespace MST
                     
                 }
 
-                Thread.Sleep(10000);
+                Thread.Sleep(100000000);
             }
         }
     }
