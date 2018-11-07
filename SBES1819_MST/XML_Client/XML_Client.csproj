@@ -52,12 +52,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
->>>>>>> 676f4809541a8f227edf4e6a487a6be8f86eea1b
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{8ddf4bf3-2662-40b2-8f76-36811ea988e4}</Project>
       <Name>Common</Name>
