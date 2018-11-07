@@ -20,8 +20,13 @@ namespace MST
 
         bool IsUserInGroup(string user, string group)
         {
+            if (group == "*")
+            {
+                return true;
+            }
+
             // set up domain context
-            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "DOMAINNAME");
+            PrincipalContext ctx = new PrincipalContext(ContextType.Machine, Environment.MachineName);
 
             // find a user
             UserPrincipal user_principal  = UserPrincipal.FindByIdentity(ctx, user);
