@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 using System.ServiceModel;
+using System.Security.Cryptography.X509Certificates;
+using Manager;
+using System.Security.Principal;
 
 namespace MST
 {
@@ -83,9 +86,16 @@ namespace MST
                             if((GetProcessOwner(theprocess.Id) == n.UserId) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
                             {
                                 // detektovan je malware
+                                //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+                                string subjectName = "IPSCert";
 
                                 NetTcpBinding binding = new NetTcpBinding();
-                                EndpointAddress address = new EndpointAddress("net.tcp://localhost:9001/ISP_Service");  // TODO: nece biti local host
+                                binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+                                X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+
+                                EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9001/ISP_Service"),
+                                                                              new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
 
                                 using (IPS_Client client = new IPS_Client(binding, address))
                                 {

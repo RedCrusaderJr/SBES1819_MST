@@ -21,14 +21,15 @@ namespace MST
             : base(binding, address)
         {
 
-            // TODO: ime klijentskog sertifikata.... .pfx file npr. "IPS_CLIENT.pfx"
-            string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
             
-            this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-            this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
+            //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            string subjectName = "IPSCert";
+            
+            this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
+            //this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, cltCertCN);
+            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);
 
             _proxy = this.CreateChannel();
         }

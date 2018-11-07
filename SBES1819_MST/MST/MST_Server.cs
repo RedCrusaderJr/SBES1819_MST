@@ -19,8 +19,9 @@ namespace MST
 
         public MST_Server()
         {
-            //TODO: ime serverovog sertifikata... .pfx file npr. "MST_SERVER.pfx"
-            string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+
+            //string subjectName = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+            string subjectName = "MSTCert";
 
             NetTcpBinding binding = new NetTcpBinding();
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
@@ -29,11 +30,11 @@ namespace MST
             _host = new ServiceHost(typeof(MST_Provider));
             _host.AddServiceEndpoint(typeof(IMST_Service), binding, address);
 
-            _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-            _host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new ServiceCertValidator();
+            _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
+
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, srvCertCN);
+            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);
         }
 
         public void Open()

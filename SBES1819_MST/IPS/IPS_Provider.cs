@@ -1,8 +1,11 @@
 ﻿using Common;
 using Common.Contracts;
+using Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +30,17 @@ namespace IPS
                 {
                     // konekcija ka MST-u
                     // gasenje procesa
+                    //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+                    string subjectName = "MSTCert";
 
                     NetTcpBinding binding = new NetTcpBinding();
-                    EndpointAddress address = new EndpointAddress("net.tcp://localhost:9002/MST_Service"); //TODO: nece biti localhost
+                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+                    X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+                   
+
+                    EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9002/MST_Service"),
+                                                                  new X509CertificateEndpointIdentity(srvCert)); //TODO: nece biti localhost
 
                     using (MST_Client client = new MST_Client(binding, address))
                     {
