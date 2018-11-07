@@ -33,15 +33,9 @@ namespace MST
                 black_list = new List<XML_Node>();
             }
 
-            black_list.RemoveAll(n => (n.ProcessName == processName));
+            // black_list.RemoveAll(n => (n.ProcessName == processName));       // brisu se svi node-ovi koji sadrze zabranu za taj proces
 
-            //foreach(XML_Node n in black_list)
-            //{
-            //    if(n.ProcessName == processName)
-            //    {
-            //        black_list.Remove(n);
-            //    }
-            //}
+            black_list.RemoveAll(n => ((n.UserId == "*") && (n.UserGroup == "*") && (n.ProcessName == processName)));
 
             XML_Worker.Instance().XML_Write(black_list);
         }
@@ -170,15 +164,7 @@ namespace MST
                 black_list = new List<XML_Node>();
             }
 
-            black_list.RemoveAll(n => ((n.UserGroup == groupID) && (n.ProcessName == processName)));
-
-            //foreach(XML_Node n in black_list)       // TODO: da li moze ovakvo brisanje u listi
-            //{
-            //    if((n.UserGroup == groupID) && (n.ProcessName == processName))
-            //    {
-            //        black_list.Remove(n);
-            //    }
-            //}
+            black_list.RemoveAll(n => ((n.UserId == "*") && (n.UserGroup == groupID) && (n.ProcessName == processName)));
 
             XML_Worker.Instance().XML_Write(black_list);
         }
@@ -191,7 +177,7 @@ namespace MST
                 black_list = new List<XML_Node>();
             }
 
-            black_list.RemoveAll(n => ((n.UserId == userID) && (n.ProcessName == processName)));
+            black_list.RemoveAll(n => ((n.UserId == userID) && (n.UserGroup == "*") && (n.ProcessName == processName)));
 
             XML_Worker.Instance().XML_Write(black_list);
         }
