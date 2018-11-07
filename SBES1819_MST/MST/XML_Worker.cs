@@ -55,7 +55,7 @@ namespace MST
             }
 
             XmlDocument xmlDocument = new XmlDocument();
-            //xmlDocument.Load(xml_name);
+            xmlDocument.Load(xml_name);
 
             foreach (XML_Node node in nodes)
             {
