@@ -4,4 +4,5 @@ Ovo je readme file koji necemo ni koristiti.
 Zasto ne?
 Bas je ovo jedan zabavan fajl.
 Da li radi commit?
-DUNJIN KOMIT KIDAAADon't read me.
+DUNJIN KOMIT KIDAAA
+Don't read me.
