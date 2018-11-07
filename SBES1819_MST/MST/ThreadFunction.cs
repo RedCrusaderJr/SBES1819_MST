@@ -22,7 +22,7 @@ namespace MST
         {
             if (group == "*")
             {
-                return true;
+                return false;
             }
 
             // set up domain context

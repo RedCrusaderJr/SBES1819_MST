@@ -48,6 +48,8 @@ namespace MST
 
         public void BanGroup(string groupID, string processName)
         {
+            bool exist = false;
+
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
@@ -55,13 +57,28 @@ namespace MST
             }
 
             XML_Node n = new XML_Node("*", groupID, processName);
-            black_list.Add(n);
+            
+            foreach(XML_Node element in black_list)
+            {
+                if((element.UserId == n.UserId) && (element.UserGroup == n.UserGroup) && (element.ProcessName == n.ProcessName))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+
+            if(!exist)
+            {
+                black_list.Add(n);
+            }
 
             XML_Worker.Instance().XML_Write(black_list);
         }
 
         public void BanUser(string userID, string processName)
         {
+            bool exist = false;
+
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
@@ -69,13 +86,28 @@ namespace MST
             }
 
             XML_Node n = new XML_Node(userID, "*", processName);
-            black_list.Add(n);
+
+            foreach (XML_Node element in black_list)
+            {
+                if ((element.UserId == n.UserId) && (element.UserGroup == n.UserGroup) && (element.ProcessName == n.ProcessName))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+
+            if (!exist)
+            {
+                black_list.Add(n);
+            }
 
             XML_Worker.Instance().XML_Write(black_list);
         }
 
         public void BanUserInGroup(string userID, string groupID, string processName)
         {
+            bool exist = false;
+
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
@@ -83,13 +115,28 @@ namespace MST
             }
 
             XML_Node n = new XML_Node(userID, groupID, processName);
-            black_list.Add(n);
+
+            foreach (XML_Node element in black_list)
+            {
+                if ((element.UserId == n.UserId) && (element.UserGroup == n.UserGroup) && (element.ProcessName == n.ProcessName))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+
+            if (!exist)
+            {
+                black_list.Add(n);
+            }
 
             XML_Worker.Instance().XML_Write(black_list);
         }
 
         public void ForbidProcess(string processName)
         {
+            bool exist = false;
+
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
@@ -97,7 +144,20 @@ namespace MST
             }
 
             XML_Node n = new XML_Node("*", "*", processName);
-            black_list.Add(n);
+
+            foreach (XML_Node element in black_list)
+            {
+                if ((element.UserId == n.UserId) && (element.UserGroup == n.UserGroup) && (element.ProcessName == n.ProcessName))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+
+            if (!exist)
+            {
+                black_list.Add(n);
+            }
 
             XML_Worker.Instance().XML_Write(black_list);
         }
