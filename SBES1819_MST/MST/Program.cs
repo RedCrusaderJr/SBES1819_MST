@@ -17,28 +17,32 @@ namespace MST
             Console.ReadLine();
             MST_Server server_MST = new MST_Server();
             server_MST.Open();
+            
+            XML_Server server_XML = new XML_Server();
+            server_XML.Open();
 
 
-            //TODO open host XML...
-
-            //XML_Server server_XML = new XML_Server();
-            //server_XML.Open();
+            // **********************************************************************************
 
             List<XML_Node> lista = new List<XML_Node>();
 
-            lista.Add(new XML_Node("user1", "*", "Notepad"));
-            lista.Add(new XML_Node("user2", "*", "Google Chrome"));
-            lista.Add(new XML_Node("*", "Group5", "Microsoft Edge"));
+            lista.Add(new XML_Node("user1", "*", "notepad"));
+            lista.Add(new XML_Node("user2", "*", "chrome"));
+            lista.Add(new XML_Node("*", "Group5", "GitHubDesktop"));
 
             XML_Worker.Instance().XML_Write(lista);             // Poziv upisa
                 
             List<XML_Node> lista2 = new List<XML_Node>();       // xml se nalazi u debag folderu
             lista2 = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
 
-            foreach (XML_Node n in lista2)
-            {
-                Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
-            }
+            //foreach (XML_Node n in lista2)
+            //{
+            //    Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
+            //}
+
+            // **********************************************************************************
+
+
 
             ThreadFunction tf = new ThreadFunction();
 
@@ -50,10 +54,10 @@ namespace MST
             Console.WriteLine("Press any key to close all hosts...");
             Console.ReadKey();
 
-            // TODO close host MST
+            // close hosts MST
 
             server_MST.Close();
-            //server_XML.Close();
+            server_XML.Close();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }

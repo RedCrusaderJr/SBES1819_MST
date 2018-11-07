@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manager", "Manager\Manager.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MST", "MST\MST.csproj", "{58B2A931-B74B-4618-88A7-9C79695EA88B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XML_Client", "XML_Client\XML_Client.csproj", "{0A3EC4E5-359D-476B-95CD-CFDE215BE539}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{58B2A931-B74B-4618-88A7-9C79695EA88B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{58B2A931-B74B-4618-88A7-9C79695EA88B}.Release|x64.ActiveCfg = Release|Any CPU
 		{58B2A931-B74B-4618-88A7-9C79695EA88B}.Release|x64.Build.0 = Release|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Debug|x64.Build.0 = Debug|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|x64.ActiveCfg = Release|Any CPU
+		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

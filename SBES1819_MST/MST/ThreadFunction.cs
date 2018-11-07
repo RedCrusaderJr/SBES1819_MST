@@ -68,6 +68,10 @@ namespace MST
             {
                 Process[] processlist = Process.GetProcesses(Environment.MachineName);
 
+                NetTcpBinding binding = new NetTcpBinding();
+                EndpointAddress address = new EndpointAddress("net.tcp://localhost:9001/ISP_Service");  // TODO: nece biti local host
+
+
                 foreach (Process theprocess in processlist)
                 {
                     Console.WriteLine("Process: {0}, process user: {1}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
@@ -79,38 +83,51 @@ namespace MST
 
                     foreach (XML_Node n in black_list)
                     {
-                        Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
+                        // Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
 
                         if(theprocess.ProcessName == n.ProcessName)
                         {
-                            if((GetProcessOwner(theprocess.Id) == n.UserId) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
+                            if((GetProcessOwner(theprocess.Id) == (Environment.MachineName + "\\" + n.UserId)) && IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
                             {
-                                // detektovan je malware
-                                //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-                                string subjectName = "IPSCert";
-
-                                NetTcpBinding binding = new NetTcpBinding();
-                                binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-
-                                X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
-
-                                EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9001/ISP_Service"),
-                                                                              new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
-
-                                using (IPS_Client client = new IPS_Client(binding, address))
-                                {
-                                    // konekcija ka IPS-u
-
-                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
-                                }
+                                // CASE: user1, group1
+                                MalwareDetection(theprocess);
+                            }
+                            else if((GetProcessOwner(theprocess.Id) == (Environment.MachineName + "\\" +  n.UserId)) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
+                            {
+                                // CASE: user1, *
+                                // CASE: * , group1
+                                MalwareDetection(theprocess);
+                            }
+                            else
+                            {
+                                // CASE: * , *
+                                MalwareDetection(theprocess);
                             }
                         }
                     }
-
-                    
                 }
 
                 Thread.Sleep(10000);
+            }
+        }
+
+        private static void MalwareDetection(Process theprocess)
+        {
+            string subjectName = "IPSCert";
+
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9001/ISP_Service"),
+                                                          new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
+                                                                                                          
+            using (IPS_Client client = new IPS_Client(binding, address))
+            {
+                // konekcija ka IPS-u
+
+                client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
             }
         }
     }

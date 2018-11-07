@@ -13,29 +13,21 @@ namespace MST
     {
         static String xml_name = "Blacklist.xml";
         private static XML_Worker _instance;
+        private int hashCode = 0;
 
         private XML_Worker()
         {
-            if (!File.Exists(xml_name))
-            {
-                using (XmlWriter xmlWriter = XmlWriter.Create(xml_name))
-                {
-                    xmlWriter.WriteStartDocument();
-                    xmlWriter.WriteStartElement("Nodes");
-                    xmlWriter.WriteEndElement();
-                    xmlWriter.WriteEndDocument();
-                }
-            }
-            else
+            if (File.Exists(xml_name))
             {
                 File.Delete(xml_name);
-                using (XmlWriter xmlWriter = XmlWriter.Create(xml_name))
-                {
-                    xmlWriter.WriteStartDocument();
-                    xmlWriter.WriteStartElement("Nodes");
-                    xmlWriter.WriteEndElement();
-                    xmlWriter.WriteEndDocument();
-                }
+            }
+
+            using (XmlWriter xmlWriter = XmlWriter.Create(xml_name))
+            {
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("Nodes");
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
             }
         }
 
@@ -53,11 +45,17 @@ namespace MST
 
         public void XML_Write(List<XML_Node> nodes)
         {
+            File.Delete(xml_name);
+            using (XmlWriter xmlWriter = XmlWriter.Create(xml_name))
+            {
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("Nodes");
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
+            }
+
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
-
-            // TODO: proveri validnost XML dokumenta [HASH vrednost]
-            // koja je pri tome vrsta greske
 
             foreach (XML_Node node in nodes)
             {
@@ -80,6 +78,8 @@ namespace MST
             }
 
             xmlDocument.Save(xml_name);
+
+            hashCode = GetHashString(nodes).GetHashCode();
         }
 
         public List<XML_Node> XML_Read()
@@ -88,9 +88,6 @@ namespace MST
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
-
-            // TODO: proveri validnost XML dokumenta [HASH vrednost]
-            // koja je pri tome vrsta greske
 
             foreach (XmlNode xmlNode in xmlDocument.DocumentElement.ChildNodes)
             {
@@ -105,7 +102,41 @@ namespace MST
                 }
             }
 
-            return nodes;
+            if (CheckHash(nodes))
+            {
+                return nodes;
+            }
+            else
+            {
+                Console.WriteLine("Blacklist was changed by someone unreliable!");
+                return new List<XML_Node>();
+            }
+        }
+
+        bool CheckHash(List<XML_Node> blackList)
+        {
+            string hashString = GetHashString(blackList);
+
+            if (hashCode == hashString.GetHashCode())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        string GetHashString(List<XML_Node> nodes)
+        {
+            string hashString = "";
+
+            foreach (XML_Node n in nodes)
+            {
+                hashString += n.UserId + n.UserGroup + n.ProcessName;
+            }
+
+            return hashString;
         }
     }
 }
