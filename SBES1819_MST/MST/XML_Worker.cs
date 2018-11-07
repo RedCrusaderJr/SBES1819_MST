@@ -109,6 +109,7 @@ namespace MST
             else
             {
                 Console.WriteLine("Blacklist was changed by someone unreliable!");
+                Console.Beep(500, 100);
                 return new List<XML_Node>();
             }
         }

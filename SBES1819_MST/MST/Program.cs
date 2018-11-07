@@ -14,6 +14,7 @@ namespace MST
         
         public static void Main(string[] args)
         {
+            Console.ReadLine();
             MST_Server server_MST = new MST_Server();
             server_MST.Open();
             

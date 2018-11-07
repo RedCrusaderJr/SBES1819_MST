@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 using System.ServiceModel;
+using System.Security.Cryptography.X509Certificates;
+using Manager;
+using System.Security.Principal;
 
 namespace MST
 {
@@ -17,8 +20,13 @@ namespace MST
 
         bool IsUserInGroup(string user, string group)
         {
+            if (group == "*")
+            {
+                return true;
+            }
+
             // set up domain context
-            PrincipalContext ctx = new PrincipalContext(ContextType.Domain, "DOMAINNAME");
+            PrincipalContext ctx = new PrincipalContext(ContextType.Machine, Environment.MachineName);
 
             // find a user
             UserPrincipal user_principal  = UserPrincipal.FindByIdentity(ctx, user);
@@ -87,44 +95,44 @@ namespace MST
                             if((GetProcessOwner(theprocess.Id) == (Environment.MachineName + "\\" + n.UserId)) && IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
                             {
                                 // CASE: user1, group1
-
-                                using (IPS_Client client = new IPS_Client(binding, address))
-                                {
-                                    // konekcija ka IPS-u
-
-                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
-                                }
+                                MalwareDetection(theprocess);
                             }
                             else if((GetProcessOwner(theprocess.Id) == (Environment.MachineName + "\\" +  n.UserId)) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
                             {
                                 // CASE: user1, *
                                 // CASE: * , group1
-
-                                using (IPS_Client client = new IPS_Client(binding, address))
-                                {
-                                    // konekcija ka IPS-u
-
-                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
-                                }
+                                MalwareDetection(theprocess);
                             }
                             else
                             {
                                 // CASE: * , *
-
-                                using (IPS_Client client = new IPS_Client(binding, address))
-                                {
-                                    // konekcija ka IPS-u
-
-                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
-                                }
+                                MalwareDetection(theprocess);
                             }
                         }
                     }
-
-                    
                 }
 
                 Thread.Sleep(10000);
+            }
+        }
+
+        private static void MalwareDetection(Process theprocess)
+        {
+            string subjectName = "IPSCert";
+
+            NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9001/ISP_Service"),
+                                                          new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
+                                                                                                          
+            using (IPS_Client client = new IPS_Client(binding, address))
+            {
+                // konekcija ka IPS-u
+
+                client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
             }
         }
     }
