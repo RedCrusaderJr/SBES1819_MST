@@ -65,6 +65,10 @@ namespace MST
             {
                 Process[] processlist = Process.GetProcesses(Environment.MachineName);
 
+                NetTcpBinding binding = new NetTcpBinding();
+                EndpointAddress address = new EndpointAddress("net.tcp://localhost:9001/ISP_Service");  // TODO: nece biti local host
+
+
                 foreach (Process theprocess in processlist)
                 {
                     Console.WriteLine("Process: {0}, process user: {1}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
@@ -80,12 +84,32 @@ namespace MST
 
                         if(theprocess.ProcessName == n.ProcessName)
                         {
-                            if((GetProcessOwner(theprocess.Id) == n.UserId) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
+                            if((GetProcessOwner(theprocess.Id) == (Environment.MachineName + "\\" + n.UserId)) && IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
                             {
-                                // detektovan je malware
+                                // CASE: user1, group1
 
-                                NetTcpBinding binding = new NetTcpBinding();
-                                EndpointAddress address = new EndpointAddress("net.tcp://localhost:9001/ISP_Service");  // TODO: nece biti local host
+                                using (IPS_Client client = new IPS_Client(binding, address))
+                                {
+                                    // konekcija ka IPS-u
+
+                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
+                                }
+                            }
+                            else if((GetProcessOwner(theprocess.Id) == (Environment.MachineName + "\\" +  n.UserId)) || IsUserInGroup(GetProcessOwner(theprocess.Id), n.UserGroup) == true)
+                            {
+                                // CASE: user1, *
+                                // CASE: * , group1
+
+                                using (IPS_Client client = new IPS_Client(binding, address))
+                                {
+                                    // konekcija ka IPS-u
+
+                                    client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
+                                }
+                            }
+                            else
+                            {
+                                // CASE: * , *
 
                                 using (IPS_Client client = new IPS_Client(binding, address))
                                 {
@@ -100,7 +124,7 @@ namespace MST
                     
                 }
 
-                Thread.Sleep(100000000);
+                Thread.Sleep(10000);
             }
         }
     }

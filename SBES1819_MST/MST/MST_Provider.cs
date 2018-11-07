@@ -24,9 +24,9 @@ namespace MST
         {
             Process[] processlist = Process.GetProcesses(Environment.MachineName);
 
-            foreach(Process p in processlist)
+            foreach (Process p in processlist)
             {
-                if(p.Id == Int32.Parse(processID))
+                if (p.Id == Int32.Parse(processID))
                 {
                     p.Kill();
                     break;
