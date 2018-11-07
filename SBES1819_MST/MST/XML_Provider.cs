@@ -12,7 +12,6 @@ namespace MST
     {
         // TODO: za sve metode koristi Read() i Write() iz XML_Worker-a
         // one rade sa upisom i citanjem liste<XLM_node> u/iz fajla
-        // Jovan i Dunja po 4 komada
 
 
         private List<XML_Node> black_list = new List<XML_Node>();   // TODO: Dunja - da li ovo treba u konstruktoru klase ? 
