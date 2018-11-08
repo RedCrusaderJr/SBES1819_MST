@@ -11,7 +11,13 @@ namespace XML_Client
     {
         static void Main(string[] args)
         {
-            NetTcpBinding binding = new NetTcpBinding();
+            NetTcpBinding binding = new NetTcpBinding()
+            {
+                CloseTimeout = new TimeSpan(0, 60, 0),
+                OpenTimeout = new TimeSpan(0, 60, 0),
+                ReceiveTimeout = new TimeSpan(0, 60, 0),
+                SendTimeout = new TimeSpan(0, 60, 0),
+            };
             EndpointAddress address = new EndpointAddress("net.tcp://localhost:9003/XML_Service");  //TODO: nece biti localhost
 
             int input;

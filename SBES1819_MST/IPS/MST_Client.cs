@@ -20,7 +20,7 @@ namespace IPS
             : base(binding, address)
         {
             //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-            string subjectName = "MSTCert";
+            string subjectName = "IPSCert";
 
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
             //this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();

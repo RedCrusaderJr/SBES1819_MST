@@ -14,7 +14,13 @@ namespace MST
 
         public XML_Server()
         {
-            NetTcpBinding binding = new NetTcpBinding();
+            NetTcpBinding binding = new NetTcpBinding()
+            {
+                CloseTimeout = new TimeSpan(0, 60, 0),
+                OpenTimeout = new TimeSpan(0, 60, 0),
+                ReceiveTimeout = new TimeSpan(0, 60, 0),
+                SendTimeout = new TimeSpan(0, 60, 0),
+            };
             string address = "net.tcp://localhost:9003/XML_Service";
             _host = new ServiceHost(typeof(XML_Provider));
             _host.AddServiceEndpoint(typeof(IXMLConfiguration_Service), binding, address);

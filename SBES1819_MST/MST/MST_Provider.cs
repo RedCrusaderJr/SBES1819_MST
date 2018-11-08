@@ -18,6 +18,7 @@ namespace MST
             // TODO: da li ce 'OperationContext.Current' vaziti na razlicitim racunarima ?
 
             //_callback = OperationContext.Current.GetCallbackChannel<IIPS_ServiceCallback>();
+            //_call
         }
 
         public void ProcessShutdown(string userID, string processID)

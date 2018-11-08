@@ -123,7 +123,13 @@ namespace MST
         {
             string subjectName = "IPSCert";
 
-            NetTcpBinding binding = new NetTcpBinding();
+            NetTcpBinding binding = new NetTcpBinding()
+            {
+                CloseTimeout = new TimeSpan(0, 60, 0),
+                OpenTimeout = new TimeSpan(0, 60, 0),
+                ReceiveTimeout = new TimeSpan(0, 60, 0),
+                SendTimeout = new TimeSpan(0, 60, 0),
+            };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
