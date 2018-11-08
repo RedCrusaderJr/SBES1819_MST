@@ -22,7 +22,7 @@ namespace MST
         {
             if (group == "*")
             {
-                return true;
+                return false;
             }
 
             // set up domain context
@@ -103,7 +103,7 @@ namespace MST
                                 // CASE: * , group1
                                 MalwareDetection(theprocess);
                             }
-                            else
+                            else if((n.UserId == "*") && (n.UserGroup == "*"))
                             {
                                 // CASE: * , *
                                 MalwareDetection(theprocess);
@@ -111,8 +111,11 @@ namespace MST
                         }
                     }
                 }
+                
 
-                Thread.Sleep(10000);
+                Console.WriteLine("\n******************** END OF PASS ********************\n");
+
+                Thread.Sleep(5000);
             }
         }
 
