@@ -46,7 +46,7 @@ namespace IPS
 
         public void Dispose()
         {
-            if(_proxy != null)
+            if (_proxy != null)
             {
                 _proxy = null;
             }

@@ -10,7 +10,8 @@ namespace MST
 {
     public class XML_Provider : IXMLConfiguration_Service
     {
-        // TODO: za sve metode koristi Read() i Write() iz XML_Worker-a
+        // metode pomocu kojih XML_Client manipulise BlackList-om
+        // za sve metode koristi Read() i Write() iz XML_Worker-a
         // one rade sa upisom i citanjem liste<XLM_node> u/iz fajla
 
 

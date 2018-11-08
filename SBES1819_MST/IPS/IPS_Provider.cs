@@ -3,6 +3,7 @@ using Common.Contracts;
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -21,22 +22,53 @@ namespace IPS
             if (!IPS_Server.MalwareEvents.ContainsKey(eventKey))
             {
                 IPS_Server.MalwareEvents.Add(eventKey, ECriticalLevel.INFORMATION);
-
                 Console.WriteLine("Malware: " + processID +  ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+
+                if (!EventLog.SourceExists("CriticalProcesses"))
+                {
+                    EventLog.CreateEventSource("CriticalProcesses", "CriticalProcesses");
+                }
+                using (EventLog eventLog = new EventLog("CriticalProcesses", Environment.MachineName, "CriticalProcesses"))
+                {
+                    eventLog.WriteEntry("Malware: " + processID + ", process name: " + processName + ", user: " + userID, EventLogEntryType.Information, eventLog.Entries.Count + 1);
+                }
 
             }
             else
             {
                 IPS_Server.MalwareEvents[eventKey]++;
-
                 Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+
+                if (IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.WARNING)
+                {
+                    if (!EventLog.SourceExists("CriticalProcesses"))
+                    {
+                        EventLog.CreateEventSource("CriticalProcesses", "CriticalProcesses");
+                    }
+                    using (EventLog eventLog = new EventLog("CriticalProcesses", Environment.MachineName, "CriticalProcesses"))
+                    {
+                        eventLog.WriteEntry("Malware: " + processID + ", process name: " + processName + ", user: " + userID, EventLogEntryType.Warning, eventLog.Entries.Count + 1);
+                    }
+                }
 
 
                 if (IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.CRITICAL)
                 {
+                    // Windows Lof Manager
+
+                    if (!EventLog.SourceExists("CriticalProcesses"))
+                    {
+                        EventLog.CreateEventSource("CriticalProcesses", "CriticalProcesses");
+                    }
+                    using (EventLog eventLog = new EventLog("CriticalProcesses", Environment.MachineName, "CriticalProcesses"))
+                    {
+                        eventLog.WriteEntry("Malware: " + processID + ", process name: " + processName + ", user: " + userID, EventLogEntryType.Error, eventLog.Entries.Count + 1);
+                    }
+
                     // konekcija ka MST-u
                     // gasenje procesa
                     //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+
                     string subjectName = "MSTCert";
 
                     NetTcpBinding binding = new NetTcpBinding()
@@ -58,8 +90,6 @@ namespace IPS
                     {
                         client.ProcessShutdown(userID, processID); //DIMITRIJE: koliko ja vidim ove userID i procesID koje dobijemo te i vracamo
                     }
-
-                    //TODO event log
                 }
             }
             

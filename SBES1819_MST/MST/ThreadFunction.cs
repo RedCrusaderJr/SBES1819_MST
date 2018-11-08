@@ -81,7 +81,9 @@ namespace MST
                 {
                     Console.WriteLine("Process: {0}, process user: {1}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
 
-                    // TODO: sastavljanje paketa IPS-u za nedozvoljenu kombinaciju 'processName - user'
+
+                    
+                    // obracanje IPS-u zbog detekcije malware-a
 
                     List<XML_Node> black_list = new List<XML_Node>();       // xml se nalazi u debag folderu
                     black_list = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
@@ -134,9 +136,12 @@ namespace MST
 
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
 
-            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.157:9001/ISP_Service"),
+            // EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.157:9001/ISP_Service"),
+            //                                              new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
+
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9001/ISP_Service"),
                                                           new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
-                                                                                                          
+
             using (IPS_Client client = new IPS_Client(binding, address))
             {
                 // konekcija ka IPS-u

@@ -30,7 +30,9 @@ namespace MST
                 if (p.Id == Int32.Parse(processID))
                 {
                     p.Kill();
+
                     // break;
+                    // da bi gasio vise procesa pokrenutih od strane 1 programa
                 }
             }
 
