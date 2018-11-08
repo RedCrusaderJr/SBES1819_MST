@@ -34,11 +34,11 @@ namespace MST
             _proxy = this.CreateChannel();
         }
 
-        public void MalwareDetection(string userID, string processID, DateTime timeOfDetection)
+        public void MalwareDetection(string userID, string processID, string processName, DateTime timeOfDetection)
         {
             try
             {
-                _proxy.MalwareDetection(userID, processID, timeOfDetection);
+                _proxy.MalwareDetection(userID, processID, processName, timeOfDetection);
             }
             catch(Exception e)
             {

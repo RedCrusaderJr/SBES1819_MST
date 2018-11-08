@@ -28,7 +28,7 @@ namespace MST
 
             lista.Add(new XML_Node("user1", "*", "notepad"));
             lista.Add(new XML_Node("user2", "*", "chrome"));
-            lista.Add(new XML_Node("*", "Group5", "GitHubDesktop"));
+            lista.Add(new XML_Node("*", "*", "GitHubDesktop"));
 
             XML_Worker.Instance().XML_Write(lista);             // Poziv upisa
                 

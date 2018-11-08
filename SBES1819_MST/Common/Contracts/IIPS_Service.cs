@@ -13,7 +13,7 @@ namespace Common.Contracts
     {
         //[OperationContract(IsOneWay = true)]
         [OperationContract]
-        void MalwareDetection(string userID, string processName, DateTime timeOfDetection);
+        void MalwareDetection(string userID, string processID, string processName, DateTime timeOfDetection);
     }
 
     /*

@@ -135,7 +135,7 @@ namespace MST
             {
                 // konekcija ka IPS-u
 
-                client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), DateTime.Now);
+                client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), theprocess.ProcessName, DateTime.Now);
             }
         }
     }
