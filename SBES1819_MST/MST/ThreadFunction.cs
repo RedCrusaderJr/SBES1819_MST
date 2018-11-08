@@ -134,8 +134,11 @@ namespace MST
 
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
 
+            //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost/ISP_Service"),
+            //                                              new X509CertificateEndpointIdentity(srvCert));
+
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.157:9001/ISP_Service"),
-                                                          new X509CertificateEndpointIdentity(srvCert));  // TODO: nece biti local host
+                                                          new X509CertificateEndpointIdentity(srvCert));
                                                                                                           
             using (IPS_Client client = new IPS_Client(binding, address))
             {
