@@ -19,7 +19,7 @@ namespace MST
 
         public MST_Server()
         {
-
+            //TODO: CONFIG
             //string subjectName = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
             string subjectName = "MSTCert";
 
@@ -32,6 +32,7 @@ namespace MST
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
+            //TODO: CONFIG
             //string address = "net.tcp://localhost/MST_Service";
             string address = "net.tcp://10.1.212.159:9002/MST_Service";
 

@@ -21,6 +21,7 @@ namespace MST
                 ReceiveTimeout = new TimeSpan(0, 60, 0),
                 SendTimeout = new TimeSpan(0, 60, 0),
             };
+            //TODO: CONFIG
             string address = "net.tcp://localhost:9003/XML_Service";
             _host = new ServiceHost(typeof(XML_Provider));
             _host.AddServiceEndpoint(typeof(IXMLConfiguration_Service), binding, address);

@@ -18,6 +18,7 @@ namespace XML_Client
                 ReceiveTimeout = new TimeSpan(0, 60, 0),
                 SendTimeout = new TimeSpan(0, 60, 0),
             };
+            //TODO: CONFIG
             EndpointAddress address = new EndpointAddress("net.tcp://localhost:9003/XML_Service");  //TODO: nece biti localhost
 
             int input;
