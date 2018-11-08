@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<HTML DIR="LTR">
+<HEAD>
+<META HTTP-EQUIV="Content-Type" Content="text/html; charset=Windows-1252">
+<TITLE>Xcacls.exe</TITLE>
+
+<STYLE TYPE="text/css">
+body    { color: #000000;
+		background: #FFFFFF;  	
+		font-size: 70%;    		
+		font-family: Verdana, Arial, Sans Serif; }
+h1
+		{ font-size: 125%; 
+		margin-bottom:".5em"; clear:both }
+h2
+		{ font-size: 110%;  
+		margin-top: "1.5em";
+		margin-bottom:".5em"; clear:both }
+h3
+		{ font-size: 100%; 
+		margin-top: "1.2em";  
+		margin-bottom: ".5em"; clear:both; }
+h4
+		{ font-size: 100%; 
+		margin-top: "1.2em";  
+		margin-bottom: ".5em"; clear:both; }
+p
+		{ margin-top:".6em"; 
+		margin-bottom: ".6em" }
+ol
+		{ margin-top: ".5em"; 
+		margin-bottom: 0; 
+		margin-left: "2.1em"; 
+		padding-left: "0em";
+		margin-right:"2.1em" }
+ul
+		{ margin-top: ".6em"; 	
+		margin-bottom: 0;
+		list-style-type: disc;
+		margin-left: "1.5em";
+		padding-left: "0em";
+		margin-right: "1.5em"; }
+li
+		{ margin-bottom: ".7em"; clear:both; }
+p.browse
+		{text-align: right;
+		margin-top: -.5em;
+		margin-bottom: -.5em;}
+p.note, p.tip, p.important, p.caution, p.warning
+		{ font-weight:bold;
+		clear:both; margin-top: "1.2em";
+		margin-bottom: "-.4em"; }
+p.alert
+	{ margin-left: 1.5em; 
+	margin-top: -1.em; margin-bottom: -.3em; font-weight: bold } 
+
+p.indent	
+		{ margin-left: "1.3em"; }       	
+		
+p.topics	{font-weight: bold}
+p.info		{font-weight: bold}
+p.files		{font-weight: bold}
+p.syntax	{background: #dddddd;
+			margin-top: 1em; 
+			margin-bottom: 1em;}
+dl		{margin-top: -.5em;}
+dt.SyntaxTerm {font-weight: normal}
+a.poplink
+		{ color: "#000000";
+		cursor: "text";
+		text-decoration: "none"; }
+table
+		{ font-size: 100%;
+		margin-top: 1em; 
+		margin-bottom: 1em; 
+		cellpadding: 0.5em; }
+		
+th
+		{ text-align: left;
+		background: #dddddd;
+		vertical-align: bottom;
+		padding: .2em;
+		padding-left: .45em;
+		padding-right: .5em; }
+		
+tr
+		{ vertical-align: top; }
+
+td
+		{ background: #EEEEEE;
+		vertical-align: top;
+		padding: .2em;
+		padding-left: .45em;
+		padding-right: .5em; }
+</style>
+
+
+
+</HEAD>
+
+<BODY>
+
+
+<H1>WinHttpCertCfg.exe, a Certificate Configuration Tool</H1>
+
+
+<HR>
+
+<P>The Microsoft Windows HTTP Services (WinHTTP) certificate configuration tool, 
+WinHttpCertCfg.exe, enables administrators to install and configure client 
+certificates in any certificate store that can be accessed by the Internet 
+Server Web Application Manager (IWAM) account. The tool also eliminates the need 
+to do anything special to accounts such as the IWAM account to gain access to 
+certificates when using Active Server Pages (ASP).<br>
+The Microsoft Management Console (MMC) enables administrators to import client 
+certificates to a local machine. However, importing a certificate does not 
+automatically grant access to the private key for other accounts. This private 
+key is required for client certificate authentication. The Microsoft Windows 
+HTTP Services (WinHTTP) certificate configuration tool provides the ability to 
+grant access to additional accounts, such as the IWAM account, when needed.<br>
+&nbsp;</P>
+<P CLASS="files"><B>File Required</B></P>
+<UL>
+     <LI>WinHttpCertCfg.exe</LI>
+</UL>
+
+
+<A NAME="xcacls_syntax"></A>
+<HR>
+<H2>WinHttpCertCfg.exe Syntax</H2>
+<HR>
+
+<P>The WinHTTP certificate configuration tool, WinHttpCertCfg.exe, is included 
+in the Platform SDK. The following example shows the command line parameters 
+that are valid for use with this tool.</p>
+
+<P CLASS="syntax"><b>winhttpcertcfg</b> [<b>/?</b>]</P>
+<P CLASS="syntax"><b>winhttpcertcfg [-i </b><i>PFXFile</i> <b>| -g | -r | -l] 
+[-a </b><i>Account</i><b>] [-c </b><i>CertStore</i><b>] [-s </b><i>SubjectStr</i><b>]</b></P>
+<DL>
+
+<p>&nbsp;</p>
+<p>The following table explains the parameters for the configuration tool.</p>
+<table class="data" id="table1">
+	<tr class="data">
+		<th>Parameter</th>
+		<th>Description</th>
+	</tr>
+	<tr class="data">
+		<td class="data">-?</td>
+		<td class="data">Displays syntax information.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-i</td>
+		<td class="data">Specifies that the certificate is to be imported from a 
+		Personal Information Exchange (PFX) file. This parameter must be 
+		followed by the name of the file. When this parameter is specified,
+		<code>-a</code> and <code>-c</code> must also be specified.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-g</td>
+		<td class="data">Specifies that access is granted to a private key. When 
+		this parameter is specified, <code>-a</code>, <code>-c</code>, and <code>
+		-s</code> must also be specified.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-r</td>
+		<td class="data">Specifies that access is removed for a private key. 
+		When this parameter is specified, <code>-a</code>, <code>-c</code>, and
+		<code>-s</code> must also be specified.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-l</td>
+		<td class="data">Specifies that accounts with access to a private key 
+		are listed. When this parameter is specified, <code>-c</code> and <code>
+		-s</code> must also be specified.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-a</td>
+		<td class="data">Specifies the user account on the machine being 
+		configured. This could be a local machine or domain account, such as
+		<code>IWAM_TESTMACHINE</code>, <code>TESTUSER</code>, or <code>
+		TESTDOMAIN\DOMAINUSER</code>.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-c</td>
+		<td class="data">Specifies the location and name of the certificate 
+		store. Use <code>LOCAL_MACHINE</code> or <code>CURRENT_USER</code> to 
+		designate which registry branch to use for the location. The certificate 
+		store can be any installed on the machine. Typical name examples are
+		<code>MY</code>, <code>Root</code>, and <code>TrustedPeople</code>. The 
+		location and name of the certificate store are separated with a backward 
+		slash; for example, <code>LOCAL_MACHINE\Root</code>. 
+		<p class="note"><b>Note</b>&nbsp;&nbsp;Although the <code>CURRENT_USER</code> 
+		branch of the registry can be specified with this parameter, extending 
+		access to private keys is primarily intended for certificates installed 
+		in a local machine certificate store that can be accessed by multiple 
+		users.</td>
+	</tr>
+	<tr class="data">
+		<td class="data">-s</td>
+		<td class="data">Specifies a case-insensitive search string for finding 
+		the first enumerated certificate with a subject name that contains this 
+		substring.</td>
+	</tr>
+</table>
+<p class="note"><b>Note</b>&nbsp;&nbsp;The user must have sufficient privileges to use 
+this tool, which requires the user to be an administrator and the same user who 
+installed the client certificate, if it is already installed.</p>
+<p class="note"><b>Note</b>&nbsp;&nbsp;The <code>WinHttpCertCfg.exe</code> tool is not 
+useful for configuring certificates that are stored in a file system such as 
+FAT32 that does not support access control lists.</p>
+<p>&nbsp;</p>
+<h4>Examples</h4>
+<p>The following examples show some of the ways in which the configuration tool 
+can be used.</p>
+<ol>
+	<li>This command lists accounts that have access to the private key for the 
+	&quot;MyCertificate&quot; certificate in the &quot;Root&quot; certificate store of the 
+	LOCAL_MACHINE branch of the registry. 
+	<pre xml:space="preserve">winhttpcertcfg -l -c LOCAL_MACHINE\Root -s MyCertificate</pre>
+	</li>
+	<li>This command grants access to the private key of the &quot;MyCertificate&quot; 
+	certificate in the &quot;My&quot; certificate store for the TESTUSER account. 
+	<pre xml:space="preserve">winhttpcertcfg -g -c LOCAL_MACHINE\My -s MyCertificate -a TESTUSER</pre>
+	</li>
+	<li>This command imports a certificate and private key from a PFX file and 
+	extends private key access to another account. 
+	<pre xml:space="preserve">winhttpcertcfg -i PFXFile -c LOCAL_MACHINE\My -a IWAM_TESTMACHINE</pre>
+	</li>
+	<li>This command removes access to the private key for the IWAM_TESTMACHINE 
+	account with the specified certificate. 
+	<pre xml:space="preserve">winhttpcertcfg -r -c LOCAL_MACHINE\Root -s MyCertificate -a IWAM_TESTMACHINE</pre>
+	</li>
+</ol>
+<p>&nbsp;</p>
+<!-- Info Task Footer -->
+</DL>
+
+</BODY>
+</HTML>
