@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,14 @@ namespace IPS
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);
+
+            ServiceSecurityAuditBehavior serviceSecurityAuditBehavior = new ServiceSecurityAuditBehavior();
+            _host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            _host.Description.Behaviors.Add(serviceSecurityAuditBehavior);
+
+            _host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
+            _host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+
         }
 
         public void Open()

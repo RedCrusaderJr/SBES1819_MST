@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace IPS
     {
         static void Main(string[] args)
         {
+            
+
             IPS_Server server = new IPS_Server();
 
             server.Open();
