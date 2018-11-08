@@ -14,19 +14,25 @@ namespace IPS
 {
     public class IPS_Provider : IIPS_Service
     {
-        public void MalwareDetection(string userID, string processID, DateTime timeOfDetection)
+        public void MalwareDetection(string userID, string processID, string processName, DateTime timeOfDetection)
         {
             string eventKey = $"{userID}|{processID}";
 
             if (!IPS_Server.MalwareEvents.ContainsKey(eventKey))
             {
                 IPS_Server.MalwareEvents.Add(eventKey, ECriticalLevel.INFORMATION);
+
+                Console.WriteLine("Malware: " + processID +  ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+
             }
             else
             {
                 IPS_Server.MalwareEvents[eventKey]++;
 
-                if(IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.CRITICAL)
+                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+
+
+                if (IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.CRITICAL)
                 {
                     // konekcija ka MST-u
                     // gasenje procesa
