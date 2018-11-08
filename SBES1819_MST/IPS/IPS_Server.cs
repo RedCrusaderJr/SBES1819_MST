@@ -33,7 +33,10 @@ namespace IPS
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
+
+            //string address = "net.tcp://localhost:9001/ISP_Service";
             string address = "net.tcp://10.1.212.157:9001/ISP_Service";
+
             _host = new ServiceHost(typeof(IPS_Provider));
             _host.AddServiceEndpoint(typeof(IIPS_Service), binding, address);
 
