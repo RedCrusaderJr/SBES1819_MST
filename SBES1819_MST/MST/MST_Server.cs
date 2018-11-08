@@ -32,7 +32,9 @@ namespace MST
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
+            //string address = "net.tcp://localhost/MST_Service";
             string address = "net.tcp://10.1.212.159:9002/MST_Service";
+
             _host = new ServiceHost(typeof(MST_Provider));
             _host.AddServiceEndpoint(typeof(IMST_Service), binding, address);
 

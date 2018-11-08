@@ -20,8 +20,6 @@ namespace MST
         public IPS_Client(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
         {
-
-            
             //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
             string subjectName = "MSTCert";
             
