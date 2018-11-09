@@ -203,7 +203,7 @@ namespace MST
 
         public List<XML_Node> ViewBlackList()
         {
-            return black_list;
+            return XML_Worker.Instance().XML_Read();
         }
     }
 }

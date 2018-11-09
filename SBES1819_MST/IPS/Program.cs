@@ -16,6 +16,7 @@ namespace IPS
             IPS_Server server = new IPS_Server();
 
             Thread t = new Thread(GarbageCollectorThread);
+            t.IsBackground = true;
             t.Start();
 
             server.Open();

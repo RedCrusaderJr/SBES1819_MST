@@ -88,7 +88,14 @@ namespace MST
             List<XML_Node> nodes = new List<XML_Node>();
 
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(xml_name);
+            try
+            {
+                xmlDocument.Load(xml_name);
+            }
+            catch
+            {
+                return new List<XML_Node>();
+            }
 
             XmlNodeList xmlNodeList;
 
@@ -159,7 +166,14 @@ namespace MST
             List<XML_Node> nodes = new List<XML_Node>();
 
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(xml_name);
+            try
+            {
+                xmlDocument.Load(xml_name);
+            }
+            catch
+            {
+                return false;
+            }
 
             foreach (XmlNode xmlNode in xmlDocument.DocumentElement.ChildNodes)
             {
