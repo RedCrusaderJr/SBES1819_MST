@@ -157,6 +157,11 @@ namespace MST
             XML_Worker.Instance().XML_Write(black_list);
         }
 
+        public bool IsBlackListValid()
+        {
+            return XML_Worker.Instance().ValidateBlackList(); 
+        }
+
         public void LiftGroupBan(string groupID, string processName)
         {
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)

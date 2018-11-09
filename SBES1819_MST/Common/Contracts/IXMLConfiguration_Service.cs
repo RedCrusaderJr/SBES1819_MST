@@ -43,5 +43,8 @@ namespace Common.Contracts
 
         [OperationContract]
         List<XML_Node> ViewBlackList();
+
+        [OperationContract]
+        bool IsBlackListValid();
     }
 }

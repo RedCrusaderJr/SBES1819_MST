@@ -40,6 +40,7 @@ namespace XML_Client
                     Console.WriteLine("8. Allow Process");
                     Console.WriteLine();
                     Console.WriteLine("9. View Black list");
+                    Console.WriteLine("10. Is Black list valid ? ");
                     Console.WriteLine("0. Exit");
                     Console.WriteLine();
 
@@ -123,6 +124,17 @@ namespace XML_Client
                             }
                             Console.WriteLine("\n******************************\n");
 
+                            break;
+
+                        case 10:
+                            if(client.IsBlackListValid())
+                            {
+                                Console.WriteLine("YAAAAS !");
+                            }
+                            else
+                            {
+                                Console.WriteLine("nah. :(");
+                            }
                             break;
 
                         case 0:

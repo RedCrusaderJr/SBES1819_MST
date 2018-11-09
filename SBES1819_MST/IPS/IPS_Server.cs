@@ -17,6 +17,8 @@ namespace IPS
 {
     public class IPS_Server 
     {
+        public static readonly Object lockObject = new Object();
+
         private ServiceHost _host;
         public static Dictionary<string, Pair<ECriticalLevel, DateTime>> MalwareEvents { get; set; } = new Dictionary<string, Pair<ECriticalLevel, DateTime>>();
 
