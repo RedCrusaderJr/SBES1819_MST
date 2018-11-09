@@ -90,16 +90,26 @@ namespace MST
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
 
-            foreach (XmlNode xmlNode in xmlDocument.DocumentElement.ChildNodes)
-            {
+            XmlNodeList xmlNodeList;
 
+            try
+            {
+                xmlNodeList = xmlDocument.DocumentElement.ChildNodes;
+            }
+            catch
+            {
+                return new List<XML_Node>();
+            }
+
+            foreach (XmlNode xmlNode in xmlNodeList)
+            {
                 try
                 {
                     nodes.Add(new XML_Node(xmlNode.ChildNodes[0].InnerText, xmlNode.ChildNodes[1].InnerText, xmlNode.ChildNodes[2].InnerText));
                 }
                 catch
                 {
-                    return null;
+                    return new List<XML_Node>();
                 }
             }
 
