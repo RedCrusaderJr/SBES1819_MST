@@ -99,7 +99,7 @@ namespace MST
                 }
                 catch
                 {
-                    return null;
+                    return new List<XML_Node>();
                 }
             }
 
