@@ -38,7 +38,7 @@ namespace IPS
 
                 foreach (KeyValuePair<string, Pair<ECriticalLevel, DateTime>> p in IPS_Server.MalwareEvents)
                 {
-                    TimeSpan difference = p.Value.Second - DateTime.Now;
+                    TimeSpan difference = DateTime.Now - p.Value.Second;
 
                     if (difference.TotalSeconds > 30)
                     {
