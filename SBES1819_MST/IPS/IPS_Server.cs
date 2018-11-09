@@ -3,6 +3,7 @@ using Common.Contracts;
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -22,7 +23,7 @@ namespace IPS
         public IPS_Server()
         {
             //TODO: CONFIG
-            string subjectName = "IPSCert";
+            //string subjectName = "IPSCert";
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -34,8 +35,8 @@ namespace IPS
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
             //TODO: CONFIG
-            //string address = "net.tcp://localhost:9001/IPS_Service";
-            string address = "net.tcp://10.1.212.157:9001/IPS_Service";
+            string address = $"net.tcp://{ConfigurationManager.AppSettings["ipsIp"]}:9001/IPS_Service";
+            //string address = "net.tcp://10.1.212.157:9001/IPS_Service";
 
             _host = new ServiceHost(typeof(IPS_Provider));
             _host.AddServiceEndpoint(typeof(IIPS_Service), binding, address);
@@ -43,7 +44,7 @@ namespace IPS
             _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["ipsCertName"]);
 
             ServiceSecurityAuditBehavior serviceSecurityAuditBehavior = new ServiceSecurityAuditBehavior();
             _host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();

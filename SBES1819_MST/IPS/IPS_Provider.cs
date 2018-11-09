@@ -3,6 +3,7 @@ using Common.Contracts;
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -53,7 +54,7 @@ namespace IPS
             // konekcija ka MST-u
             // gasenje procesa
             //TODO: CONFIG
-            string subjectName = "MSTCert";
+            //string subjectName = "MSTCert";
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -64,13 +65,13 @@ namespace IPS
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["mstCertName"]);
 
             //TODO: CONFIG
             //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9002/MST_Service"),
             //                                              new X509CertificateEndpointIdentity(srvCert));
 
-            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.159:9002/MST_Service"),
+            EndpointAddress address = new EndpointAddress(new Uri($"net.tcp://{ConfigurationManager.AppSettings["mstIp"]}:9002/MST_Service"),
                                                           new X509CertificateEndpointIdentity(srvCert));
 
             using (MST_Client client = new MST_Client(binding, address))

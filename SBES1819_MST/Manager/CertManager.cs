@@ -36,13 +36,18 @@ namespace Manager
 			return null;
 		}
 
+        public static X509Certificate2 GetCertificateFromStorage(StoreName my, StoreLocation localMachine, object p)
+        {
+            throw new NotImplementedException();
+        }
 
-		/// <summary>
-		/// Get a certificate from the specified .pfx file		
-		/// </summary>
-		/// <param name="fileName"> .pfx file name </param>
-		/// <returns> The requested certificate. If no valid certificate is found, returns null. </returns>
-		public static X509Certificate2 GetCertificateFromFile(string fileName)
+
+        /// <summary>
+        /// Get a certificate from the specified .pfx file		
+        /// </summary>
+        /// <param name="fileName"> .pfx file name </param>
+        /// <returns> The requested certificate. If no valid certificate is found, returns null. </returns>
+        public static X509Certificate2 GetCertificateFromFile(string fileName)
 		{
 			X509Certificate2 certificate = null;
 

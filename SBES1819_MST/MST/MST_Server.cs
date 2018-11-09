@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography.X509Certificates;
@@ -20,7 +21,7 @@ namespace MST
         public MST_Server()
         {
             //TODO: CONFIG
-            string subjectName = "MSTCert";
+            //string subjectName = "MSTCert";
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -43,7 +44,7 @@ namespace MST
 
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["mstCertName"]);
         }
 
         public void Open()
