@@ -20,33 +20,38 @@ namespace IPS
         {
             string eventKey = $"{userID}|{processID}";
 
-            if (!IPS_Server.MalwareEvents.ContainsKey(eventKey))
+            lock (IPS_Server.lockObject)
             {
-                IPS_Server.MalwareEvents.Add(eventKey, new Pair<ECriticalLevel, DateTime>(ECriticalLevel.INFORMATION, timeOfDetection));
 
-                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].First.ToString());
-                LogMalwareEvent(userID, processID, processName, EventLogEntryType.Information);
-            }
-            else if (IPS_Server.MalwareEvents[eventKey].First == ECriticalLevel.INFORMATION)
-            {
-                IPS_Server.MalwareEvents[eventKey].First++;
+                if (!IPS_Server.MalwareEvents.ContainsKey(eventKey))
+                {
+                    IPS_Server.MalwareEvents.Add(eventKey, new Pair<ECriticalLevel, DateTime>(ECriticalLevel.INFORMATION, timeOfDetection));
 
-                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].First.ToString());
-                LogMalwareEvent(userID, processID, processName, EventLogEntryType.Warning);
-            }
-            else
-            {
-                if (IPS_Server.MalwareEvents[eventKey].First == ECriticalLevel.WARNING)
+                    Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+                    LogMalwareEvent(userID, processID, processName, EventLogEntryType.Information);
+                }
+                else if (IPS_Server.MalwareEvents[eventKey].First == ECriticalLevel.INFORMATION)
                 {
                     IPS_Server.MalwareEvents[eventKey].First++;
+
+                    Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+                    LogMalwareEvent(userID, processID, processName, EventLogEntryType.Warning);
+                }
+                else
+                {
+                    if (IPS_Server.MalwareEvents[eventKey].First == ECriticalLevel.WARNING)
+                    {
+                        IPS_Server.MalwareEvents[eventKey].First++;
+                    }
+                    
+                    Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].First.ToString());
+                    LogMalwareEvent(userID, processID, processName, EventLogEntryType.Error);
+
+                    ShutdownMalwareProcess(userID, processID);
                 }
 
-                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].First.ToString());
-                LogMalwareEvent(userID, processID, processName, EventLogEntryType.Error);
-                
-
-                ShutdownMalwareProcess(userID, processID);
             }
+
             
         }
 

@@ -139,5 +139,39 @@ namespace MST
 
             return hashString;
         }
+
+
+        // metoda ista kao XML_Read(), samo sto umesto List<XML_Node> vraca bool
+        // treba nam za proveru Black Liste od strane XML_Client - a
+
+        public bool ValidateBlackList()
+        {
+            List<XML_Node> nodes = new List<XML_Node>();
+
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(xml_name);
+
+            foreach (XmlNode xmlNode in xmlDocument.DocumentElement.ChildNodes)
+            {
+
+                try
+                {
+                    nodes.Add(new XML_Node(xmlNode.ChildNodes[0].InnerText, xmlNode.ChildNodes[1].InnerText, xmlNode.ChildNodes[2].InnerText));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            if (CheckHash(nodes))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

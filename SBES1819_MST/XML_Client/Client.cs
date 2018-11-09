@@ -83,6 +83,20 @@ namespace XML_Client
             }
         }
 
+        public bool IsBlackListValid()
+        {
+            try
+            {
+                return _proxy.IsBlackListValid();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error on 'IsBlackListValid()' with message: {e.Message}");
+                Console.WriteLine($"[STACK_TRACE] {e.StackTrace}");
+                return false;
+            }
+        }
+
         public void LiftGroupBan(string groupID, string processName)
         {
             try
