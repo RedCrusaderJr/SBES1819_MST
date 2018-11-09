@@ -11,8 +11,6 @@ namespace IPS
     {
         static void Main(string[] args)
         {
-            
-
             IPS_Server server = new IPS_Server();
 
             server.Open();

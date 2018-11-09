@@ -21,8 +21,6 @@ namespace IPS
 
         public IPS_Server()
         {
-
-            //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
             //TODO: CONFIG
             string subjectName = "IPSCert";
 
@@ -43,7 +41,6 @@ namespace IPS
             _host.AddServiceEndpoint(typeof(IIPS_Service), binding, address);
 
             _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
-
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);

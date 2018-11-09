@@ -21,11 +21,9 @@ namespace MST
             : base(binding, address)
         {
             //TODO: CONFIG
-            //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
             string subjectName = "MSTCert";
             
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
-            //this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
             this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);

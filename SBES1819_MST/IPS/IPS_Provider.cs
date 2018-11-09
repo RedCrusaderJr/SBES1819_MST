@@ -22,63 +22,64 @@ namespace IPS
             if (!IPS_Server.MalwareEvents.ContainsKey(eventKey))
             {
                 IPS_Server.MalwareEvents.Add(eventKey, ECriticalLevel.INFORMATION);
-                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
 
-                //LOG
-                LogEvent(userID, processID, processName, EventLogEntryType.Information);
+                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+                LogMalwareEvent(userID, processID, processName, EventLogEntryType.Information);
+            }
+            else if (IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.INFORMATION)
+            {
+                IPS_Server.MalwareEvents[eventKey]++;
+
+                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+                LogMalwareEvent(userID, processID, processName, EventLogEntryType.Warning);
             }
             else
             {
-                IPS_Server.MalwareEvents[eventKey]++;
-                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
-
                 if (IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.WARNING)
                 {
-                    //LOG
-                    LogEvent(userID, processID, processName, EventLogEntryType.Warning);
+                    IPS_Server.MalwareEvents[eventKey]++;
                 }
 
+                Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+                LogMalwareEvent(userID, processID, processName, EventLogEntryType.Error);
 
-                if (IPS_Server.MalwareEvents[eventKey] == ECriticalLevel.CRITICAL)
-                {
-                    // Windows Lof Manager
-                    //LOG
-                    LogEvent(userID, processID, processName, EventLogEntryType.Error);
-
-                    // konekcija ka MST-u
-                    // gasenje procesa
-                    //string subjectName = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-                    //TODO: CONFIG
-                    string subjectName = "MSTCert";
-
-                    NetTcpBinding binding = new NetTcpBinding()
-                    {
-                        CloseTimeout = new TimeSpan(0, 60, 0),
-                        OpenTimeout = new TimeSpan(0, 60, 0),
-                        ReceiveTimeout = new TimeSpan(0, 60, 0),
-                        SendTimeout = new TimeSpan(0, 60, 0),
-                    };
-                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
-
-                    X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
-
-                    //TODO: CONFIG
-                    //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9002/MST_Service"),
-                    //                                              new X509CertificateEndpointIdentity(srvCert));
-
-                    EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.159:9002/MST_Service"),
-                                                                  new X509CertificateEndpointIdentity(srvCert));
-
-                    using (MST_Client client = new MST_Client(binding, address))
-                    {
-                        client.ProcessShutdown(userID, processID); //DIMITRIJE: koliko ja vidim ove userID i procesID koje dobijemo te i vracamo
-                    }
-                }
+                ShutdownMalwareProcess(userID, processID);
             }
             
         }
 
-        private void LogEvent(string userID, string processID, string processName, EventLogEntryType type)
+        private void ShutdownMalwareProcess(string userID, string processID)
+        {
+            // konekcija ka MST-u
+            // gasenje procesa
+            //TODO: CONFIG
+            string subjectName = "MSTCert";
+
+            NetTcpBinding binding = new NetTcpBinding()
+            {
+                CloseTimeout = new TimeSpan(0, 60, 0),
+                OpenTimeout = new TimeSpan(0, 60, 0),
+                ReceiveTimeout = new TimeSpan(0, 60, 0),
+                SendTimeout = new TimeSpan(0, 60, 0),
+            };
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
+
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+
+            //TODO: CONFIG
+            //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9002/MST_Service"),
+            //                                              new X509CertificateEndpointIdentity(srvCert));
+
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.159:9002/MST_Service"),
+                                                          new X509CertificateEndpointIdentity(srvCert));
+
+            using (MST_Client client = new MST_Client(binding, address))
+            {
+                client.ProcessShutdown(userID, processID);
+            }
+        }
+
+        private void LogMalwareEvent(string userID, string processID, string processName, EventLogEntryType type)
         {
             if (!EventLog.SourceExists("CriticalProcesses"))
             {

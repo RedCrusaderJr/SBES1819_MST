@@ -20,7 +20,6 @@ namespace MST
         public MST_Server()
         {
             //TODO: CONFIG
-            //string subjectName = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
             string subjectName = "MSTCert";
 
             NetTcpBinding binding = new NetTcpBinding()
