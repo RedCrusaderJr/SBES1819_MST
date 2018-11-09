@@ -44,7 +44,7 @@ namespace MST
 
         
 
-        public void XML_Write(List<IXML_Node> nodes)
+        public void XML_Write(List<XML_Node> nodes)
         {
             File.Delete(xml_name);
             using (XmlWriter xmlWriter = XmlWriter.Create(xml_name))
@@ -58,7 +58,7 @@ namespace MST
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
 
-            foreach (IXML_Node node in nodes)
+            foreach (XML_Node node in nodes)
             {
                 XmlNode xml_node = xmlDocument.CreateElement("node");
 
@@ -83,9 +83,9 @@ namespace MST
             hashCode = GetHashString(nodes).GetHashCode();
         }
 
-        public List<IXML_Node> XML_Read()
+        public List<XML_Node> XML_Read()
         {
-            List<IXML_Node> nodes = new List<IXML_Node>();
+            List<XML_Node> nodes = new List<XML_Node>();
 
             XmlDocument xmlDocument = new XmlDocument();
             xmlDocument.Load(xml_name);
@@ -110,11 +110,11 @@ namespace MST
             else
             {
                 Console.WriteLine("Blacklist was changed by someone unreliable!");
-                return new List<IXML_Node>();
+                return new List<XML_Node>();
             }
         }
 
-        bool CheckHash(List<IXML_Node> blackList)
+        bool CheckHash(List<XML_Node> blackList)
         {
             string hashString = GetHashString(blackList);
 
@@ -128,7 +128,7 @@ namespace MST
             }
         }
 
-        string GetHashString(List<IXML_Node> nodes)
+        string GetHashString(List<XML_Node> nodes)
         {
             string hashString = "";
 

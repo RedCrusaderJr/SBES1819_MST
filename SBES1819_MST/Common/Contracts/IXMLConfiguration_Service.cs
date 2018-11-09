@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 
 namespace Common.Contracts
@@ -41,6 +42,6 @@ namespace Common.Contracts
 
 
         [OperationContract]
-        List<IXML_Node> ViewBlackList();
+        List<XML_Node> ViewBlackList();
     }
 }

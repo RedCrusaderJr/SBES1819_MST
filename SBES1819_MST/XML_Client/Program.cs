@@ -114,10 +114,10 @@ namespace XML_Client
                             break;
 
                         case 9:
-                            List<IXML_Node> blackList = client.ViewBlackList();
+                            List<XML_Node> blackList = client.ViewBlackList();
 
                             Console.WriteLine("\n***** Current Black List *****\n");
-                            foreach(IXML_Node node in blackList)
+                            foreach(XML_Node node in blackList)
                             {
                                 Console.WriteLine($"Process name: {node.ProcessName}, User: {node.UserId}, Group: {node.UserGroup}");
                             }

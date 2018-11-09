@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,10 +45,10 @@
     <Compile Include="Contracts\IIPS_Service.cs" />
     <Compile Include="Contracts\IXMLConfiguration_Service.cs" />
     <Compile Include="Contracts\IMST_Service.cs" />
-    <Compile Include="IXML_Node.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML_Node.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

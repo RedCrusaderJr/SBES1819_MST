@@ -83,7 +83,7 @@ namespace MST
                     
                     // obracanje IPS-u zbog detekcije malware-a
 
-                    List<IXML_Node> black_list = new List<IXML_Node>();       // xml se nalazi u debag folderu
+                    List<XML_Node> black_list = new List<XML_Node>();       // xml se nalazi u debag folderu
                     black_list = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
 
                     foreach (XML_Node n in black_list)

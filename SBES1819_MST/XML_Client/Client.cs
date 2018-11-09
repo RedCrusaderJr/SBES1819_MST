@@ -122,7 +122,7 @@ namespace XML_Client
             }
         }
 
-        public List<IXML_Node> ViewBlackList()
+        public List<XML_Node> ViewBlackList()
         {
             try
             {

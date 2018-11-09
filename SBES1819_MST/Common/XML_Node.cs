@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MST
+namespace Common
 {
-    public class XML_Node : IXML_Node
+    [DataContract]
+    public class XML_Node
     {
         string userId;
         string userGroup;
@@ -20,6 +22,7 @@ namespace MST
             this.processName = processName;
         }
 
+        [DataMember]
         public string UserId {
             get
             {
@@ -31,6 +34,7 @@ namespace MST
             }
         }
 
+        [DataMember]
         public string UserGroup
         {
             get
@@ -43,6 +47,7 @@ namespace MST
             }
         }
 
+        [DataMember]
         public string ProcessName
         {
             get

@@ -25,7 +25,7 @@ namespace MST
 
             // **********************************************************************************
 
-            List<IXML_Node> lista = new List<IXML_Node>();
+            List<XML_Node> lista = new List<XML_Node>();
 
             lista.Add(new XML_Node("user1", "*", "notepad"));
             lista.Add(new XML_Node("user1", "BanGroup", "GitHubDesktop"));
