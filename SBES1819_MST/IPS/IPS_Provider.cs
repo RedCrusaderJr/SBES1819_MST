@@ -22,6 +22,7 @@ namespace IPS
 
             lock (IPS_Server.lockObject)
             {
+
                 if (!IPS_Server.MalwareEvents.ContainsKey(eventKey))
                 {
                     IPS_Server.MalwareEvents.Add(eventKey, new Pair<ECriticalLevel, DateTime>(ECriticalLevel.INFORMATION, timeOfDetection));
@@ -42,8 +43,8 @@ namespace IPS
                     {
                         IPS_Server.MalwareEvents[eventKey].First++;
                     }
-
-                    Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].ToString());
+                    
+                    Console.WriteLine("Malware: " + processID + ", process name: " + processName + ", user: " + userID + " ... level: " + IPS_Server.MalwareEvents[eventKey].First.ToString());
                     LogMalwareEvent(userID, processID, processName, EventLogEntryType.Error);
 
                     ShutdownMalwareProcess(userID, processID);
