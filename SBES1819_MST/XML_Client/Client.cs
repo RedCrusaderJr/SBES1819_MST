@@ -1,4 +1,5 @@
-﻿using Common.Contracts;
+﻿using Common;
+using Common.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,6 +119,20 @@ namespace XML_Client
             {
                 Console.WriteLine($"Error on 'LiftUserInGroupBan()' with message: {e.Message}");
                 Console.WriteLine($"[STACK_TRACE] {e.StackTrace}");
+            }
+        }
+
+        public List<IXML_Node> ViewBlackList()
+        {
+            try
+            {
+                return _proxy.ViewBlackList();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Error on 'ViewBlackList()' with message: {e.Message}");
+                Console.WriteLine($"[STACK_TRACE] {e.StackTrace}");
+                return null;
             }
         }
     }

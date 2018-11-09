@@ -38,5 +38,9 @@ namespace Common.Contracts
 
         [OperationContract]
         void AllowProcess(string processName);
+
+
+        [OperationContract]
+        List<IXML_Node> ViewBlackList();
     }
 }

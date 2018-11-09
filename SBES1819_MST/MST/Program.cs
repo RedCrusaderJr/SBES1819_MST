@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Management;
 using System.Threading;
+using Common;
 
 namespace MST
 {
@@ -24,21 +25,15 @@ namespace MST
 
             // **********************************************************************************
 
-            List<XML_Node> lista = new List<XML_Node>();
+            List<IXML_Node> lista = new List<IXML_Node>();
 
             lista.Add(new XML_Node("user1", "*", "notepad"));
-            lista.Add(new XML_Node("user2", "*", "chrome"));
-            lista.Add(new XML_Node("*", "*", "GitHubDesktop"));
+            lista.Add(new XML_Node("user1", "BanGroup", "GitHubDesktop"));
+            lista.Add(new XML_Node("*", "BanGroup", "notepad++"));
+            lista.Add(new XML_Node("*", "*", "Taskmgr"));
 
             XML_Worker.Instance().XML_Write(lista);             // Poziv upisa
-                
-            List<XML_Node> lista2 = new List<XML_Node>();       // xml se nalazi u debag folderu
-            lista2 = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
-
-            //foreach (XML_Node n in lista2)
-            //{
-            //    Console.WriteLine(n.UserId + " " + n.UserGroup + " " + n.ProcessName);
-            //}
+            
 
             // **********************************************************************************
 

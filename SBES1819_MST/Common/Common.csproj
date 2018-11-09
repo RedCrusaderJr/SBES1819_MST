@@ -46,6 +46,7 @@
     <Compile Include="Contracts\IMST_Service.cs" />
     <Compile Include="IXML_Node.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

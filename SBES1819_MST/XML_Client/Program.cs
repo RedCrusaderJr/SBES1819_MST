@@ -5,6 +5,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 namespace XML_Client
 {
@@ -38,6 +39,7 @@ namespace XML_Client
                     Console.WriteLine("7. Lift User In Group Ban");
                     Console.WriteLine("8. Allow Process");
                     Console.WriteLine();
+                    Console.WriteLine("9. View Black list");
                     Console.WriteLine("0. Exit");
                     Console.WriteLine();
 
@@ -109,6 +111,18 @@ namespace XML_Client
                         case 8:
                             Console.WriteLine("Enter process name: ");
                             client.AllowProcess(Console.ReadLine());
+                            break;
+
+                        case 9:
+                            List<IXML_Node> blackList = client.ViewBlackList();
+
+                            Console.WriteLine("\n***** Current Black List *****\n");
+                            foreach(IXML_Node node in blackList)
+                            {
+                                Console.WriteLine($"Process name: {node.ProcessName}, User: {node.UserId}, Group: {node.UserGroup}");
+                            }
+                            Console.WriteLine("\n******************************\n");
+
                             break;
 
                         case 0:

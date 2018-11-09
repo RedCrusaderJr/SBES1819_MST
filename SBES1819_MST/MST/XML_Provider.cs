@@ -15,14 +15,14 @@ namespace MST
         // one rade sa upisom i citanjem liste<XLM_node> u/iz fajla
 
 
-        private List<XML_Node> black_list = null;   // TODO: Dunja - da li ovo treba u konstruktoru klase ? 
+        private List<IXML_Node> black_list = null;   // TODO: Dunja - da li ovo treba u konstruktoru klase ? 
 
         public XML_Provider()
         {
             if((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
         }
 
@@ -31,7 +31,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             // black_list.RemoveAll(n => (n.ProcessName == processName));       // brisu se svi node-ovi koji sadrze zabranu za taj proces
@@ -48,7 +48,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             XML_Node n = new XML_Node("*", groupID, processName);
@@ -77,7 +77,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             XML_Node n = new XML_Node(userID, "*", processName);
@@ -106,7 +106,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             XML_Node n = new XML_Node(userID, groupID, processName);
@@ -135,7 +135,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             XML_Node n = new XML_Node("*", "*", processName);
@@ -162,7 +162,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             black_list.RemoveAll(n => ((n.UserId == "*") && (n.UserGroup == groupID) && (n.ProcessName == processName)));
@@ -175,7 +175,7 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             black_list.RemoveAll(n => ((n.UserId == userID) && (n.UserGroup == "*") && (n.ProcessName == processName)));
@@ -188,12 +188,17 @@ namespace MST
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
             {
                 Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
+                black_list = new List<IXML_Node>();
             }
 
             black_list.RemoveAll(n => ((n.UserId == userID) && (n.UserGroup == groupID) && (n.ProcessName == processName)));
 
             XML_Worker.Instance().XML_Write(black_list);
+        }
+
+        public List<IXML_Node> ViewBlackList()
+        {
+            return black_list;
         }
     }
 }

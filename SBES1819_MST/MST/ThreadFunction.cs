@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using Manager;
 using System.Security.Principal;
 using System.Configuration;
+using Common;
 
 namespace MST
 {
@@ -82,7 +83,7 @@ namespace MST
                     
                     // obracanje IPS-u zbog detekcije malware-a
 
-                    List<XML_Node> black_list = new List<XML_Node>();       // xml se nalazi u debag folderu
+                    List<IXML_Node> black_list = new List<IXML_Node>();       // xml se nalazi u debag folderu
                     black_list = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
 
                     foreach (XML_Node n in black_list)

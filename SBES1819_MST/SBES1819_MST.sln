@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MST", "MST\MST.csproj", "{5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XML_Client", "XML_Client\XML_Client.csproj", "{0A3EC4E5-359D-476B-95CD-CFDE215BE539}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppLauncher", "AppLauncher\AppLauncher.csproj", "{9F96AD21-565A-4CEA-9F43-96307EB97AD8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,14 +61,6 @@ Global
 		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|x64.ActiveCfg = Release|Any CPU
 		{0A3EC4E5-359D-476B-95CD-CFDE215BE539}.Release|x64.Build.0 = Release|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Debug|x64.Build.0 = Debug|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Release|x64.ActiveCfg = Release|Any CPU
-		{9F96AD21-565A-4CEA-9F43-96307EB97AD8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

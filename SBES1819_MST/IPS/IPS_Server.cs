@@ -18,7 +18,7 @@ namespace IPS
     public class IPS_Server 
     {
         private ServiceHost _host;
-        public static Dictionary<string, ECriticalLevel> MalwareEvents { get; set; } = new Dictionary<string, ECriticalLevel>();
+        public static Dictionary<string, Pair<ECriticalLevel, DateTime>> MalwareEvents { get; set; } = new Dictionary<string, Pair<ECriticalLevel, DateTime>>();
 
         public IPS_Server()
         {
