@@ -11,6 +11,7 @@ using System.ServiceModel;
 using System.Security.Cryptography.X509Certificates;
 using Manager;
 using System.Security.Principal;
+using System.Configuration;
 
 namespace MST
 {
@@ -137,7 +138,7 @@ namespace MST
             //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost/IPS_Service"),
             //                                              new X509CertificateEndpointIdentity(srvCert));
 
-            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://10.1.212.157:9001/IPS_Service"),
+            EndpointAddress address = new EndpointAddress(new Uri($"net.tcp://{ConfigurationManager.AppSettings["ipsIp"]}:9001/IPS_Service"),
                                                           new X509CertificateEndpointIdentity(srvCert));
 
             using (IPS_Client client = new IPS_Client(binding, address))

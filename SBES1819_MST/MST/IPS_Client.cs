@@ -10,6 +10,7 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using System.Configuration;
 
 namespace MST
 {
@@ -21,12 +22,12 @@ namespace MST
             : base(binding, address)
         {
             //TODO: CONFIG
-            string subjectName = "MSTCert";
+            //string subjectName = "MSTCert";
             
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, subjectName);
+            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["mstCertName"]);
 
             _proxy = this.CreateChannel();
         }

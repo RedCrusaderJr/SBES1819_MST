@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -19,7 +20,7 @@ namespace XML_Client
                 SendTimeout = new TimeSpan(0, 60, 0),
             };
             //TODO: CONFIG
-            EndpointAddress address = new EndpointAddress("net.tcp://localhost:9003/XML_Service");  //TODO: nece biti localhost
+            EndpointAddress address = new EndpointAddress($"net.tcp://{ConfigurationManager.AppSettings["mstIp"]}:9003/XML_Service");  //TODO: nece biti localhost
 
             int input;
 
