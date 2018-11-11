@@ -1,6 +1,6 @@
 ﻿using Common;
 using Common.Contracts;
-using Manager;
+using Common.Manager;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -36,7 +36,7 @@ namespace IPS
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            //TODO: CONFIG
+          
             string address = $"net.tcp://{ConfigurationManager.AppSettings["ipsIp"]}:9001/IPS_Service";
             //string address = "net.tcp://10.1.212.157:9001/IPS_Service";
 

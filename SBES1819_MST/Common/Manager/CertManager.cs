@@ -5,7 +5,7 @@ using System.Text;
 using System.Security.Cryptography.X509Certificates;
 using System.Security;
 
-namespace Manager
+namespace Common.Manager
 {
 	public class CertManager
 	{

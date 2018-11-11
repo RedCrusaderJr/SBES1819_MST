@@ -10,7 +10,7 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Contracts;
-using Manager;
+using Common.Manager;
 
 namespace MST
 {
@@ -35,7 +35,7 @@ namespace MST
             //TODO: CONFIG
             //string address = "net.tcp://localhost/MST_Service";
             //string address = "net.tcp://10.1.212.159:9002/MST_Service";
-            string address = "net.tcp://10.1.212.180:9002/MST_Service";
+            string address = $"net.tcp://{ConfigurationManager.AppSettings["mstIp"]}/MST_Service";
             
             _host = new ServiceHost(typeof(MST_Provider));
             _host.AddServiceEndpoint(typeof(IMST_Service), binding, address);

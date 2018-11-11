@@ -1,6 +1,6 @@
 ﻿using Common;
 using Common.Contracts;
-using Manager;
+using Common.Manager;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 using System.ServiceModel;
 using System.Security.Cryptography.X509Certificates;
-using Manager;
+using Common.Manager;
 using System.Security.Principal;
 using System.Configuration;
 using Common;
@@ -36,7 +36,7 @@ namespace MST
             // find the group in question
             GroupPrincipal group_principal = GroupPrincipal.FindByIdentity(ctx, group);
 
-            if (user_principal != null)
+            if (user_principal != null && group_principal != null)
             {
                 // check if user is member of that group
                 if (user_principal.IsMemberOf(group_principal))

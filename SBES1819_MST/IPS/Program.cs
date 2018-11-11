@@ -40,7 +40,7 @@ namespace IPS
                 {
                     TimeSpan difference = DateTime.Now - p.Value.Second;
 
-                    if (difference.TotalSeconds > 30)
+                    if (difference.TotalSeconds > 40)
                     {
                         elementsToRemove.Add(p.Key);
                     }
