@@ -12,9 +12,18 @@ namespace MST
 {
     public class XML_Worker
     {
-        static String xml_name = "Blacklist.xml";
+        #region Instance
         private static XML_Worker _instance;
-        private int hashCode = 0;
+
+        public static XML_Worker Instance()
+        {
+            if (_instance == null || !File.Exists(xml_name))
+            {
+                _instance = new XML_Worker();
+            }
+
+            return _instance;
+        }
 
         private XML_Worker()
         {
@@ -31,19 +40,52 @@ namespace MST
                 xmlWriter.WriteEndDocument();
             }
         }
+        #endregion
 
-        public static XML_Worker Instance()
+        private static string xml_name = ConfigurationManager.AppSettings["xmlName"];
+
+        private int hashCode = 0;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blackList"></param>
+        /// <returns></returns>
+        private bool CheckHash(List<XML_Node> blackList)
         {
-            if (_instance == null || !File.Exists(xml_name))
-            {
-                _instance = new XML_Worker();
-            }
+            string hashString = GetHashString(blackList);
 
-            return _instance;
+            if (hashCode == hashString.GetHashCode())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <returns></returns>
+        private string GetHashString(List<XML_Node> nodes)
+        {
+            string hashString = "";
 
+            foreach (XML_Node n in nodes)
+            {
+                hashString += n.UserId + n.UserGroup + n.ProcessName;
+            }
+
+            return hashString;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodes"></param>
         public void XML_Write(List<XML_Node> nodes)
         {
             File.Delete(xml_name);
@@ -83,6 +125,10 @@ namespace MST
             hashCode = GetHashString(nodes).GetHashCode();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<XML_Node> XML_Read()
         {
             List<XML_Node> nodes = new List<XML_Node>();
@@ -131,36 +177,11 @@ namespace MST
             }
         }
 
-        bool CheckHash(List<XML_Node> blackList)
-        {
-            string hashString = GetHashString(blackList);
-
-            if (hashCode == hashString.GetHashCode())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        string GetHashString(List<XML_Node> nodes)
-        {
-            string hashString = "";
-
-            foreach (XML_Node n in nodes)
-            {
-                hashString += n.UserId + n.UserGroup + n.ProcessName;
-            }
-
-            return hashString;
-        }
-
-
-        // metoda ista kao XML_Read(), samo sto umesto List<XML_Node> vraca bool
-        // treba nam za proveru Black Liste od strane XML_Client - a
-
+        /// <summary>
+        /// metoda ista kao XML_Read(), samo sto umesto List<XML_Node> vraca bool 
+        /// treba nam za proveru Black Liste od strane XML_Client - a
+        /// </summary>
+        /// <returns></returns>
         public bool ValidateBlackList()
         {
             List<XML_Node> nodes = new List<XML_Node>();

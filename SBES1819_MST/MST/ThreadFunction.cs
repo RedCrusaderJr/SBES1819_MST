@@ -18,58 +18,10 @@ namespace MST
 {
     public class ThreadFunction
     {
-        // ova metoda za string user (iz procesa) proverava da li pripada grupi (string iz xml-a)
-
-        bool IsUserInGroup(string user, string group)
-        {
-            if (group == "*")
-            {
-                return false;
-            }
-
-            // set up domain context
-            PrincipalContext ctx = new PrincipalContext(ContextType.Machine, Environment.MachineName);
-
-            // find a user
-            UserPrincipal user_principal  = UserPrincipal.FindByIdentity(ctx, user);
-
-            // find the group in question
-            GroupPrincipal group_principal = GroupPrincipal.FindByIdentity(ctx, group);
-
-            if (user_principal != null && group_principal != null)
-            {
-                // check if user is member of that group
-                if (user_principal.IsMemberOf(group_principal))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        static string GetProcessOwner(int processId)
-        {
-            string query = "Select * From Win32_Process Where ProcessID = " + processId;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-            ManagementObjectCollection processList = searcher.Get();
-
-            foreach (ManagementObject obj in processList)
-            {
-                string[] argList = new string[] { string.Empty, string.Empty };
-                int returnVal = Convert.ToInt32(obj.InvokeMethod("GetOwner", argList));
-                if (returnVal == 0)
-                {
-                    // return DOMAIN\user
-                    return argList[1] + "\\" + argList[0];
-                }
-            }
-
-            return "NO OWNER";
-        }
-
-
-        public void DetectProcesses()
+        /// <summary>
+        /// Repeatedly checks if there is an active malware processe(s).
+        /// </summary>
+        public void ProcessesMonitor()
         {
             while (true)
             {
@@ -79,12 +31,10 @@ namespace MST
                 {
                     Console.WriteLine("Process: {0}, process user: {1}", theprocess.ProcessName, GetProcessOwner(theprocess.Id));
 
-
-                    
                     // obracanje IPS-u zbog detekcije malware-a
 
-                    List<XML_Node> black_list = new List<XML_Node>();       // xml se nalazi u debag folderu
-                    black_list = XML_Worker.Instance().XML_Read();          // Poziv iscitavanja
+                    List<XML_Node> black_list = new List<XML_Node>();
+                    black_list = XML_Worker.Instance().XML_Read();
 
                     foreach (XML_Node n in black_list)
                     {
@@ -119,10 +69,14 @@ namespace MST
             }
         }
 
-        private static void MalwareDetection(Process theprocess)
+        /// <summary>
+        /// Connects to IPS with a request to evident a malware process.
+        /// </summary>
+        /// <param name="process"></param>
+        private void MalwareDetection(Process process)
         {
-            //TODO: CONFIG
-            string subjectName = "IPSCert";
+            string ipsCertName = ConfigurationManager.AppSettings["ipsCertName"];
+            string ipsHostIpAddress = ConfigurationManager.AppSettings["ipsIp"];
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -133,20 +87,74 @@ namespace MST
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, subjectName);
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, ipsCertName);
 
-            //TODO: CONFIG
-            //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost/IPS_Service"),
-            //                                              new X509CertificateEndpointIdentity(srvCert));
-            
-            EndpointAddress address = new EndpointAddress(new Uri($"net.tcp://{ConfigurationManager.AppSettings["ipsIp"]}:9001/IPS_Service"),
+            EndpointAddress address = new EndpointAddress(new Uri($"net.tcp://{ipsHostIpAddress}:9001/IPS_Service"),
                                                           new X509CertificateEndpointIdentity(srvCert));
             
             using (IPS_Client client = new IPS_Client(binding, address))
             {
-                // konekcija ka IPS-u
-                client.MalwareDetection(GetProcessOwner(theprocess.Id), theprocess.Id.ToString(), theprocess.ProcessName, DateTime.Now);
+                client.MalwareDetection(GetProcessOwner(process.Id), process.Id.ToString(), process.ProcessName, DateTime.Now);
             }
+        }
+        
+        /// <summary>
+        /// Checks whether user belongs to a group.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        private bool IsUserInGroup(string user, string group)
+        {
+            if (group == "*")
+            {
+                return false;
+            }
+
+            // set up domain context
+            PrincipalContext ctx = new PrincipalContext(ContextType.Machine, Environment.MachineName);
+
+            // find a user
+            UserPrincipal user_principal  = UserPrincipal.FindByIdentity(ctx, user);
+
+            // find the group in question
+            GroupPrincipal group_principal = GroupPrincipal.FindByIdentity(ctx, group);
+
+            if (user_principal != null && group_principal != null)
+            {
+                // check if user is member of that group
+                if (user_principal.IsMemberOf(group_principal))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the name of the owner of process with ID (processId).
+        /// </summary>
+        /// <param name="processId"></param>
+        /// <returns></returns>
+        private string GetProcessOwner(int processId)
+        {
+            string query = "Select * From Win32_Process Where ProcessID = " + processId;
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection processList = searcher.Get();
+
+            foreach (ManagementObject obj in processList)
+            {
+                string[] argList = new string[] { string.Empty, string.Empty };
+                int returnVal = Convert.ToInt32(obj.InvokeMethod("GetOwner", argList));
+                if (returnVal == 0)
+                {
+                    // return DOMAIN\user
+                    return argList[1] + "\\" + argList[0];
+                }
+            }
+
+            return "NO OWNER";
         }
     }
 }

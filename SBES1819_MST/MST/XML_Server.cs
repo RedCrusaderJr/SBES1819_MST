@@ -1,6 +1,7 @@
 ﻿using Common.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
@@ -12,8 +13,13 @@ namespace MST
     {
         private ServiceHost _host;
 
+        /// <summary>
+        /// Initialize XML host for WCF communication.
+        /// </summary>
         public XML_Server()
         {
+            string xmlHostIpAddress = ConfigurationManager.AppSettings["xmlIp"];
+
             NetTcpBinding binding = new NetTcpBinding()
             {
                 CloseTimeout = new TimeSpan(0, 60, 0),
@@ -21,12 +27,16 @@ namespace MST
                 ReceiveTimeout = new TimeSpan(0, 60, 0),
                 SendTimeout = new TimeSpan(0, 60, 0),
             };
-            //TODO: CONFIG
-            string address = "net.tcp://localhost:9003/XML_Service";
+
+            string address = $"net.tcp://{xmlHostIpAddress}:9003/XML_Service";
+
             _host = new ServiceHost(typeof(XML_Provider));
             _host.AddServiceEndpoint(typeof(IXMLConfiguration_Service), binding, address);
         }
 
+        /// <summary>
+        /// Opens the XML host.
+        /// </summary>
         public void Open()
         {
             try
@@ -41,6 +51,9 @@ namespace MST
             }
         }
 
+        /// <summary>
+        /// Closes the XML host.
+        /// </summary>
         public void Close()
         {
             try

@@ -6,21 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Common.Contracts
-{
-    //[ServiceContract(CallbackContract=typeof(IIPS_ServiceCallback))]
+{ 
     [ServiceContract]
     public interface IIPS_Service
     {
-        //[OperationContract(IsOneWay = true)]
+        /// <summary>
+        /// Evidenting the malware event by parameters.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
+        /// <param name="processName"></param>
+        /// <param name="timeOfDetection"></param>
         [OperationContract]
         void MalwareDetection(string userID, string processID, string processName, DateTime timeOfDetection);
     }
-
-    /*
-    public interface IIPS_ServiceCallback
-    {
-        [OperationContract(IsOneWay = true)]
-        void ProcessShutdownCallback(string userID, string processID);
-    }
-    */
 }

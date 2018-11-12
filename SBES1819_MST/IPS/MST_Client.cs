@@ -17,20 +17,29 @@ namespace IPS
     {
         private IMST_Service _proxy;
 
-        public MST_Client(NetTcpBinding binding, EndpointAddress address) 
+        /// <summary>
+        /// Initialize the WCF communication channel to MST host.
+        /// </summary>
+        /// <param name="binding"></param>
+        /// <param name="address"></param>
+        public MST_Client(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
         {
-            //TODO: CONFIG
-            //string subjectName = "IPSCert";
-
+            string ipsCertName = ConfigurationManager.AppSettings["ipsCertName"];
+            
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["ipsCertName"]);
+            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ipsCertName);
 
             _proxy = this.CreateChannel();
         }
 
+        /// <summary>
+        /// Encapsulates the call of ProcessShutdown() method on MST host.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
         public void ProcessShutdown(string userID, string processID)
         {
             try

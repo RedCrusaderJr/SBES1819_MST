@@ -16,6 +16,13 @@ namespace IPS
 {
     public class IPS_Provider : IIPS_Service
     {
+        /// <summary>
+        /// Evidenting the malware event by parameters.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
+        /// <param name="processName"></param>
+        /// <param name="timeOfDetection"></param>
         public void MalwareDetection(string userID, string processID, string processName, DateTime timeOfDetection)
         {
             string eventKey = $"{userID}|{processID}";
@@ -49,18 +56,18 @@ namespace IPS
 
                     ShutdownMalwareProcess(userID, processID);
                 }
-
             }
-
-            
         }
 
+        /// <summary>
+        /// Connects to MST with a request to shutdown the process with processID.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
         private void ShutdownMalwareProcess(string userID, string processID)
         {
-            // konekcija ka MST-u
-            // gasenje procesa
-            //TODO: CONFIG
-            //string subjectName = "MSTCert";
+            string mstCertName = ConfigurationManager.AppSettings["mstCertName"];
+            string mstHostIpAddress = ConfigurationManager.AppSettings["mstIp"];
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -71,13 +78,8 @@ namespace IPS
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["mstCertName"]);
-
-            //TODO: CONFIG
-            //EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:9002/MST_Service"),
-            //                                              new X509CertificateEndpointIdentity(srvCert));
-
-            EndpointAddress address = new EndpointAddress(new Uri($"net.tcp://{ConfigurationManager.AppSettings["mstIp"]}:9002/MST_Service"),
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, mstCertName);
+            EndpointAddress address = new EndpointAddress(new Uri($"net.tcp://{mstHostIpAddress}:9002/MST_Service"),
                                                           new X509CertificateEndpointIdentity(srvCert));
 
             using (MST_Client client = new MST_Client(binding, address))
@@ -86,6 +88,13 @@ namespace IPS
             }
         }
 
+        /// <summary>
+        /// Encapsulates logging of malware events.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
+        /// <param name="processName"></param>
+        /// <param name="type"></param>
         private void LogMalwareEvent(string userID, string processID, string processName, EventLogEntryType type)
         {
             if (!EventLog.SourceExists("CriticalProcesses"))

@@ -29,7 +29,9 @@ namespace IPS
         }
 
 
-
+        /// <summary>
+        /// Manages the remainig entries in dictionary which are out of use.
+        /// </summary>
         private static void GarbageCollectorThread()
         {
             while(true)

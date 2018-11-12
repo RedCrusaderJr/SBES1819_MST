@@ -18,11 +18,14 @@ namespace MST
     {
         private ServiceHost _host;
 
+        /// <summary>
+        /// Initialize MST host for WCF communication with certificates.
+        /// </summary>
         public MST_Server()
         {
-            //TODO: CONFIG
-            //string subjectName = "MSTCert";
-
+            string mstHostIpAddress = ConfigurationManager.AppSettings["mstIp"];
+            string mstCertName = ConfigurationManager.AppSettings["mstCertName"];
+            
             NetTcpBinding binding = new NetTcpBinding()
             {
                 CloseTimeout = new TimeSpan(0, 60, 0),
@@ -32,10 +35,7 @@ namespace MST
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            //TODO: CONFIG
-            //string address = "net.tcp://localhost/MST_Service";
-            //string address = "net.tcp://10.1.212.159:9002/MST_Service";
-            string address = $"net.tcp://{ConfigurationManager.AppSettings["mstIp"]}/MST_Service";
+            string address = $"net.tcp://{mstHostIpAddress}/MST_Service";
             
             _host = new ServiceHost(typeof(MST_Provider));
             _host.AddServiceEndpoint(typeof(IMST_Service), binding, address);
@@ -44,9 +44,12 @@ namespace MST
 
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["mstCertName"]);
+            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, mstCertName);
         }
 
+        /// <summary>
+        /// Opens the MSt host.
+        /// </summary>
         public void Open()
         {
             try
@@ -61,6 +64,9 @@ namespace MST
             }
         }
 
+        /// <summary>
+        /// Closes the MST host.
+        /// </summary>
         public void Close()
         {
             try

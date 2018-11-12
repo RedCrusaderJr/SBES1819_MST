@@ -13,6 +13,8 @@ namespace XML_Client
     {
         static void Main(string[] args)
         {
+            string mstHostIpAddress = ConfigurationManager.AppSettings["mstIp"];
+
             NetTcpBinding binding = new NetTcpBinding()
             {
                 CloseTimeout = new TimeSpan(0, 60, 0),
@@ -20,8 +22,8 @@ namespace XML_Client
                 ReceiveTimeout = new TimeSpan(0, 60, 0),
                 SendTimeout = new TimeSpan(0, 60, 0),
             };
-            //TODO: CONFIG
-            EndpointAddress address = new EndpointAddress($"net.tcp://{ConfigurationManager.AppSettings["mstIp"]}:9003/XML_Service");  //TODO: nece biti localhost
+
+            EndpointAddress address = new EndpointAddress($"net.tcp://{mstHostIpAddress}:9003/XML_Service");
 
             int input;
 

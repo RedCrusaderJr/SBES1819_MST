@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.ServiceModel.Security;
-using System.Text;
+using System.Text; 
 using System.Threading.Tasks;
 using Common;
 using System.Configuration;
@@ -18,20 +18,31 @@ namespace MST
     {
         private IIPS_Service _proxy;
 
+        /// <summary>
+        /// Initialize the WCF communication channel to IPS host.
+        /// </summary>
+        /// <param name="binding"></param>
+        /// <param name="address"></param>
         public IPS_Client(NetTcpBinding binding, EndpointAddress address)
             : base(binding, address)
         {
-            //TODO: CONFIG
-            //string subjectName = "MSTCert";
+            string mstCertName = ConfigurationManager.AppSettings["mstCertName"];
             
             this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
             this.Credentials.ServiceCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["mstCertName"]);
+            this.Credentials.ClientCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, mstCertName);
 
             _proxy = this.CreateChannel();
         }
 
+        /// <summary>
+        /// Encapsulates the call of MalwareDetection() method on IPS host.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
+        /// <param name="processName"></param>
+        /// <param name="timeOfDetection"></param>
         public void MalwareDetection(string userID, string processID, string processName, DateTime timeOfDetection)
         {
             try

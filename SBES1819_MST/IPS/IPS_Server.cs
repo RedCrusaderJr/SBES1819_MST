@@ -20,12 +20,16 @@ namespace IPS
         public static readonly Object lockObject = new Object();
 
         private ServiceHost _host;
+
         public static Dictionary<string, Pair<ECriticalLevel, DateTime>> MalwareEvents { get; set; } = new Dictionary<string, Pair<ECriticalLevel, DateTime>>();
 
+        /// <summary>
+        /// Initialize IPS host for WCF communication with certificates.
+        /// </summary>
         public IPS_Server()
         {
-            //TODO: CONFIG
-            //string subjectName = "IPSCert";
+            string ipsHostIpAddress = ConfigurationManager.AppSettings["ipsIp"];
+            string ipsCertName = ConfigurationManager.AppSettings["ipsCertName"];
 
             NetTcpBinding binding = new NetTcpBinding()
             {
@@ -36,9 +40,7 @@ namespace IPS
             };
             binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-          
-            string address = $"net.tcp://{ConfigurationManager.AppSettings["ipsIp"]}:9001/IPS_Service";
-            //string address = "net.tcp://10.1.212.157:9001/IPS_Service";
+            string address = $"net.tcp://{ipsHostIpAddress}:9001/IPS_Service";
 
             _host = new ServiceHost(typeof(IPS_Provider));
             _host.AddServiceEndpoint(typeof(IIPS_Service), binding, address);
@@ -46,7 +48,8 @@ namespace IPS
             _host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.ChainTrust;
             _host.Credentials.ClientCertificate.Authentication.RevocationMode = X509RevocationMode.NoCheck;
 
-            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ConfigurationManager.AppSettings["ipsCertName"]);
+            
+            _host.Credentials.ServiceCertificate.Certificate = CertManager.GetCertificateFromStorage(StoreName.My, StoreLocation.LocalMachine, ipsCertName);
 
             ServiceSecurityAuditBehavior serviceSecurityAuditBehavior = new ServiceSecurityAuditBehavior();
             _host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
@@ -54,9 +57,11 @@ namespace IPS
 
             _host.Description.Behaviors.Remove(typeof(ServiceDebugBehavior));
             _host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
-
         }
 
+        /// <summary>
+        /// Opens the IPS host.
+        /// </summary>
         public void Open()
         {
             try
@@ -72,6 +77,9 @@ namespace IPS
             }
         }
 
+        /// <summary>
+        /// Closes the IPS host.
+        /// </summary>
         public void Close()
         {
             try

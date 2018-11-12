@@ -11,16 +11,11 @@ namespace MST
 {
     public class MST_Provider : IMST_Service
     {
-        //private IIPS_ServiceCallback _callback = null;
-
-        public MST_Provider()
-        {
-            // TODO: da li ce 'OperationContext.Current' vaziti na razlicitim racunarima ?
-
-            //_callback = OperationContext.Current.GetCallbackChannel<IIPS_ServiceCallback>();
-            //_call
-        }
-
+        /// <summary>
+        /// Shutdowns the process with processID.
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="processID"></param>
         public void ProcessShutdown(string userID, string processID)
         {
             Process[] processlist = Process.GetProcesses(Environment.MachineName);
@@ -35,11 +30,6 @@ namespace MST
                     // da bi gasio vise procesa pokrenutih od strane 1 programa
                 }
             }
-
-
-            // nakon izvrsene logike, salje se callback IPS-u
-
-            //_callback.ProcessShutdownCallback(userID, processID);
         }
     }
 }

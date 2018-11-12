@@ -13,7 +13,8 @@ namespace XML_Client
     {
         private IXMLConfiguration_Service _proxy;
 
-        public Client(NetTcpBinding binding, EndpointAddress address) : base(binding, address)
+        public Client(NetTcpBinding binding, EndpointAddress address) 
+            : base(binding, address)
         {
             _proxy = this.CreateChannel();
         }

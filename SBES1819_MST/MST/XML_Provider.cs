@@ -8,13 +8,13 @@ using Common.Contracts;
 
 namespace MST
 {
+    /// <summary>
+    /// metode pomocu kojih XML_Client manipulise BlackList-om
+    /// za sve metode koristi Read() i Write() iz XML_Worker-a
+    /// one rade sa upisom i citanjem liste<XLM_node> u/iz fajla
+    /// </summary>
     public class XML_Provider : IXMLConfiguration_Service
     {
-        // metode pomocu kojih XML_Client manipulise BlackList-om
-        // za sve metode koristi Read() i Write() iz XML_Worker-a
-        // one rade sa upisom i citanjem liste<XLM_node> u/iz fajla
-
-
         private List<XML_Node> black_list = null;   // TODO: Dunja - da li ovo treba u konstruktoru klase ? 
 
         public XML_Provider()
@@ -26,19 +26,14 @@ namespace MST
             }
         }
 
-        public void AllowProcess(string processName)
+        public bool IsBlackListValid()
         {
-            if ((black_list = XML_Worker.Instance().XML_Read()) == null)
-            {
-                Console.WriteLine("Error while reading Black List from file.");
-                black_list = new List<XML_Node>();
-            }
+            return XML_Worker.Instance().ValidateBlackList(); 
+        }
 
-            // black_list.RemoveAll(n => (n.ProcessName == processName));       // brisu se svi node-ovi koji sadrze zabranu za taj proces
-
-            black_list.RemoveAll(n => ((n.UserId == "*") && (n.UserGroup == "*") && (n.ProcessName == processName)));
-
-            XML_Worker.Instance().XML_Write(black_list);
+        public List<XML_Node> ViewBlackList()
+        {
+            return XML_Worker.Instance().XML_Read();
         }
 
         public void BanGroup(string groupID, string processName)
@@ -157,11 +152,6 @@ namespace MST
             XML_Worker.Instance().XML_Write(black_list);
         }
 
-        public bool IsBlackListValid()
-        {
-            return XML_Worker.Instance().ValidateBlackList(); 
-        }
-
         public void LiftGroupBan(string groupID, string processName)
         {
             if ((black_list = XML_Worker.Instance().XML_Read()) == null)
@@ -201,9 +191,19 @@ namespace MST
             XML_Worker.Instance().XML_Write(black_list);
         }
 
-        public List<XML_Node> ViewBlackList()
+        public void AllowProcess(string processName)
         {
-            return XML_Worker.Instance().XML_Read();
+            if ((black_list = XML_Worker.Instance().XML_Read()) == null)
+            {
+                Console.WriteLine("Error while reading Black List from file.");
+                black_list = new List<XML_Node>();
+            }
+
+            // black_list.RemoveAll(n => (n.ProcessName == processName));       // brisu se svi node-ovi koji sadrze zabranu za taj proces
+
+            black_list.RemoveAll(n => ((n.UserId == "*") && (n.UserGroup == "*") && (n.ProcessName == processName)));
+
+            XML_Worker.Instance().XML_Write(black_list);
         }
-    }
+    } 
 }
