@@ -23,6 +23,11 @@ namespace MST
         /// </summary>
         public void ProcessesMonitor()
         {
+            if (!Int32.TryParse(ConfigurationManager.AppSettings["processMonitorThreadSpeelPeriod"], out int processMonitorThreadSpeelPeriod))
+            {
+                processMonitorThreadSpeelPeriod = 5000;
+            }
+
             while (true)
             {
                 Process[] processlist = Process.GetProcesses(Environment.MachineName);
@@ -65,7 +70,7 @@ namespace MST
 
                 Console.WriteLine("\n******************** END OF PASS ********************\n");
 
-                Thread.Sleep(5000);
+                Thread.Sleep(processMonitorThreadSpeelPeriod);
             }
         }
 

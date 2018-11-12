@@ -35,46 +35,5 @@ namespace Common.Manager
 
 			return null;
 		}
-
-		public static X509Certificate2 GetCertificateFromStorage(StoreName my, StoreLocation localMachine, object p)
-		{
-			throw new NotImplementedException();
-		}
-
-
-		/// <summary>
-		/// Get a certificate from the specified .pfx file		
-		/// </summary>
-		/// <param name="fileName"> .pfx file name </param>
-		/// <returns> The requested certificate. If no valid certificate is found, returns null. </returns>
-		public static X509Certificate2 GetCertificateFromFile(string fileName)
-		{
-			X509Certificate2 certificate = null;
-
-			///In order to create .pfx file, access to a protected .pvk file will be required.
-			///For security reasons, password must not be kept as string. .NET class SecureString provides a confidentiality of a plaintext
-			Console.Write("Insert password for the private key: ");
-			string pwd = Console.ReadLine();
-
-			///Convert string to SecureString
-			SecureString secPwd = new SecureString();
-			foreach (char c in pwd)
-			{
-				secPwd.AppendChar(c);
-			}
-			pwd = String.Empty;
-
-			/// try-catch necessary if either the speficied file doesn't exist or password is incorrect
-			try
-			{
-				certificate = new X509Certificate2(fileName, secPwd);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("Erroro while trying to GetCertificateFromFile {0}. ERROR = {1}", fileName, e.Message);
-			}
-
-			return certificate;
-		}
 	}
 }

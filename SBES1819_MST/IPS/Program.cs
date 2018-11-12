@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,17 @@ namespace IPS
         /// </summary>
         private static void GarbageCollectorThread()
         {
-            while(true)
+            if(!Int32.TryParse(ConfigurationManager.AppSettings["garbageThreadSleepPeriod"], out int garbageThreadSleepPeriod))
+            {
+                garbageThreadSleepPeriod = 30000;
+            }
+
+            if (!Int32.TryParse(ConfigurationManager.AppSettings["garbageDeletePeriod"], out int garbageDeletePeriod))
+            {
+                garbageDeletePeriod = 300000;
+            }
+
+            while (true)
             {
                 List<string> elementsToRemove = new List<string>();
 
@@ -42,7 +53,7 @@ namespace IPS
                 {
                     TimeSpan difference = DateTime.Now - p.Value.Second;
 
-                    if (difference.TotalSeconds > 40)
+                    if (difference.TotalSeconds > garbageDeletePeriod)
                     {
                         elementsToRemove.Add(p.Key);
                     }
@@ -50,7 +61,7 @@ namespace IPS
 
                 elementsToRemove.ForEach(e => IPS_Server.MalwareEvents.Remove(e));
 
-                Thread.Sleep(30000);
+                Thread.Sleep(garbageThreadSleepPeriod);
             }
         }
     }
